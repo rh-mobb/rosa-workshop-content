@@ -1,0 +1,76 @@
+# Project Information
+site_name: MOBB ROSA Workshop
+site_url: https://ws.mobb.cloud/
+site_description: A workshop focused on ROSA for operations and development teams.
+site_author: Red Hat
+
+# Repository
+repo_name: rh-mobb/rosa-workshop-content
+repo_url: https://github.com/rh-mobb/rosa-workshop-content
+
+# Nav Menu Definition
+nav:
+  - Welcome: index.md
+  - Environment Setup: 100-setup/1-environment.md
+  - Create ROSA Cluster: 100-setup/2-cluster-creation.md
+  - Access Your Cluster: 100-setup/3-access-cluster.md
+  - Day Two ROSA Operations:
+#    - Configuring OAuth2 authentication: 200-ops/idp/aad.md
+    - Managing Cluster Upgrades: 200-ops/upgrades.md
+    - Managing Worker Nodes: 200-ops/scaling-nodes.md
+    - Cluster Autoscaling: 200-ops/autoscaling.md
+    - Labeling Nodes: 200-ops/labels.md
+  - Deploy and Expose an App:
+    - Deploy the App: 300-app/deploy.md
+    - Using OpenShift GitOps: 300-app/gitops.md
+    - Restrict Network Access: 300-app/networkpolicy.md
+    - Automate Deploying the App with Tekton: 300-app/cicd.md
+  - Make an App Resilient: 300-app/resilience.md
+  - Service Mesh:
+    - Service Mesh: 500-service-mesh/introduction.md
+    - Deploy Service Mesh Operator: 500-service-mesh/install.md
+    - Deploy Control Plane: 500-service-mesh/deploy-control-plane.md
+    - Deploy Workloads: 500-service-mesh/deploy-workload.md
+    - Deploy Weighted Load Balancing: 500-service-mesh/weighted-routing.md
+    - Access Kiali Dashboard: 500-service-mesh/kiali.md
+
+# Theme Configuration
+theme:
+  features:
+    - content.code.annotate
+  name: material
+  language: 'en'
+  palette:
+    primary: black
+    accent: red
+  font:
+    text: Overpass
+    code: Overpass Mono
+  logo: favicon.ico
+  favicon: favicon.ico
+docs_dir: rosa-content
+
+# plugins
+plugins:
+- section-index
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - toc:
+      permalink: "#"
+  - attr_list
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: 'rosa-content/assets/'
+
+extra_css:
+  - assets/css/custom.css
+
+# Google Analytics
