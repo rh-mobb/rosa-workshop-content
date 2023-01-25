@@ -1,6 +1,6 @@
-# ARO Hack-a-Thon Content
+# ROSA Workshop Content
 
-This repository will be used to host public content for the MOBB ARO workshop.
+This repository is used to host public content for the MOBB ROSA workshop.
 
 **The detailed task instructions should NOT be posted here, only the guidance for customers to complete each task!**
 
