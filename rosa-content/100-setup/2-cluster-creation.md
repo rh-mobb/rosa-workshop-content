@@ -39,6 +39,15 @@ Before we can create a ROSA cluster, we need to login to the ROSA CLI using a to
 
     Normally, you would need to also authenticate against the AWS CLI in addition to logging in to the ROSA CLI. Luckily, we've already done that for you in this workshop environment!
 
+
+### Create User Role
+
+Before we can begin creating our cluster, we need to create a user role. The ROSA user role is an AWS role used by Red Hat to verify the customer’s AWS identity. This role has no additional permissions, and the role has a trust relationship with the Red Hat installer account. To create the role, run the following command:
+
+```bash
+rosa create user-role --mode auto --yes
+```
+
 ### Create Your ROSA Cluster
 
 1. Create your cluster by running the following commands: 
