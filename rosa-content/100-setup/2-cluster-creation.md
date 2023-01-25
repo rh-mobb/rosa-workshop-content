@@ -50,6 +50,10 @@ rosa create user-role --mode auto --yes
 
 ### Create Your ROSA Cluster
 
+!!! note
+
+    Normally, you would need to create additional STS roles before you could install the cluster. These roles are explained in more detail [here](https://docs.openshift.com/rosa/rosa_architecture/rosa-sts-about-iam-resources.html){:target="_blank"}.
+
 1. Create your cluster by running the following commands: 
 
     !!! note
