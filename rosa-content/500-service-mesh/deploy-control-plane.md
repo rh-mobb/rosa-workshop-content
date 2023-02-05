@@ -22,6 +22,9 @@ Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a tr
       namespace: istio-system
     spec:
       version: v2.2
+      security:
+        identity:
+          type: ThirdParty  #required setting for ROSA
       tracing:
         type: Jaeger
         sampling: 10000
@@ -37,7 +40,6 @@ Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a tr
         grafana:
           enabled: true
     ```
-
 
 1. Run the following command to deploy the Service Mesh control plane.
 
