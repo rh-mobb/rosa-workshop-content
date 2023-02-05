@@ -1,8 +1,8 @@
 # Introduction
 
-It's time for us to put our cluster to work and deploy a workload. We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ROSA){:target="_blank"}, using [Quarkus](https://quarkus.io/){:target="_blank"} (a Kubernetes Native Java stack) and [Amazon DynamoDB](https://aws.amazon.com/dynamodb){:target="_blank"}. We'll then deploy the application to our ROSA cluster and connect to the database over AWS's secure network.
+It's time for us to put our cluster to work and deploy a workload. We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ROSA){:target="_blank"}, using [Quarkus](https://quarkus.io/){:target="_blank"} (a Kubernetes-native Java stack) and [Amazon DynamoDB](https://aws.amazon.com/dynamodb){:target="_blank"}. We'll then deploy the application to our ROSA cluster and connect to the database over AWS's secure network.
 
-## Create Amazon DynamoDB instance
+## Create an Amazon DynamoDB instance
 
 1. First, let's create a namespace (also known as a project in OpenShift). To do so, run the following command:
 
@@ -10,11 +10,19 @@ It's time for us to put our cluster to work and deploy a workload. We're going t
     oc new-project microsweeper-ex
     ```
 
+1. The AWS IAM credentials assigned to your user will need to be available for the app to talk to DynamoDB, but we also need to keep them secure. We'll create an OpenShift `Secret` resource to store them:
+
+    ```bash
+    oc create secret generic microsweeper-dynamo-creds \
+    --from-literal AWS_ACCESS_KEY_ID=$(cat ~/.aws/credentials | grep aws_access_key_id | cut -d' ' -f3) \
+    --from-literal AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/credentials | grep aws_secret_access_key | cut -d' ' -f3) \
+    --from-literal AWS_REGION=$(aws configure get region)
+    ```
 1. Create the Amazon DynamoDB table resource. To do so, run the following command:
 
     ```bash
     aws dynamodb create-table \
-    --table-name ${WS_USER} \
+    --table-name ${WS_USER}-microsweeper-scores \
     --attribute-definitions AttributeName=name,AttributeType=S \
     --key-schema AttributeName=name,KeyType=HASH \
     --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1
@@ -31,7 +39,7 @@ It's time for us to put our cluster to work and deploy a workload. We're going t
                     "AttributeType": "S"
                 }
             ],
-            "TableName": "user1_mobbws",
+            "TableName": "user1_mobbws-microsweeper-scores",
             "KeySchema": [
                 {
                     "AttributeName": "name",
@@ -79,17 +87,24 @@ Now that we've got a DynamoDB instance up and running, let's build and deploy ou
 
     ```xml
     cat <<EOF > ./src/main/resources/application.properties
-    %prod.quarkus.dynamodb.aws.region=us-west-2
-    %prod.quarkus.dynamodb.aws.credentials.static-provider.access-key-id=$(cat ~/.aws/credentials | grep aws_access_key_id | cut -d' ' -f3)
-    %prod.quarkus.dynamodb.aws.credentials.static-provider.secret-access-key=$(cat ~/.aws/credentials | grep aws_secret_access_key | cut -d' ' -f3)
-    dynamodb.table=${WS_USER}
+    # AWS DynamoDB configurations
+    %prod.quarkus.dynamodb.aws.region=$(aws configure get region)
+    %prod.quarkus.dynamodb.aws.credentials.type=default
+    dynamodb.table=${WS_USER}-microsweeper-scores
+
+    # Maps our secret into the container as environment variables
+    quarkus.openshift.env.secrets=microsweeper-dynamo-creds
 
     # OpenShift configurations
     %prod.quarkus.kubernetes-client.trust-certs=true
     %prod.quarkus.kubernetes.deploy=true
     %prod.quarkus.kubernetes.deployment-target=openshift
     %prod.quarkus.openshift.build-strategy=docker
-    %prod.quarkus.openshift.expose=true
+    %prod.quarkus.openshift.route.expose=true
+    %prod.quarkus.kubernetes-config.enabled=true
+    # To make Quarkus use Deployment instead of DeploymentConfig
+    %prod.quarkus.openshift.deployment-kind=Deployment
+    %prod.quarkus.container-image.group=microsweeper-ex
     EOF
     ```
 
@@ -136,7 +151,7 @@ On the next screen, explore around. Look specifically at the YAML definition of 
 ![OpenShift Web Console - Build Logs](../assets/images/rosa-console-build-logs.png)
 
 ### Image Deployment
-After the image was built, the source-to-image process then deployed the application for us. In the quarkus properties file, we specified that a deployment should be created. You can view the deployment under *Workloads* -> *Deployments*, and then click on the Deployment name.
+After the image was built, the source-to-image process then deployed the application for us. You can view the deployment under *Workloads* -> *Deployments*, and then click on the Deployment name.
 ![OpenShift Web Console - Deployments](../assets/images/rosa-console-deployments.png)
 
 Explore around the deployment screen, check out the different tabs, look at the YAML that was created.
