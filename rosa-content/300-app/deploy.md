@@ -14,8 +14,8 @@ It's time for us to put our cluster to work and deploy a workload. We're going t
 
     ```bash
     oc create secret generic microsweeper-dynamo-creds \
-    --from-literal AWS_ACCESS_KEY_ID=$(cat ~/.aws/credentials | grep aws_access_key_id | cut -d' ' -f3) \
-    --from-literal AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/credentials | grep aws_secret_access_key | cut -d' ' -f3) \
+    --from-literal AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) \
+    --from-literal AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key) \
     --from-literal AWS_REGION=$(aws configure get region)
     ```
 1. Create the Amazon DynamoDB table resource. To do so, run the following command:
@@ -101,7 +101,7 @@ Now that we've got a DynamoDB instance up and running, let's build and deploy ou
     %prod.quarkus.kubernetes.deployment-target=openshift
     %prod.quarkus.openshift.build-strategy=docker
     %prod.quarkus.openshift.route.expose=true
-    %prod.quarkus.kubernetes-config.enabled=true
+
     # To make Quarkus use Deployment instead of DeploymentConfig
     %prod.quarkus.openshift.deployment-kind=Deployment
     %prod.quarkus.container-image.group=microsweeper-ex
