@@ -5,6 +5,9 @@ metadata:
   namespace: istio-system
 spec:
   version: v2.2
+  security:
+    identity:
+      type: ThirdParty  #required setting for ROSA
   tracing:
     type: Jaeger
     sampling: 10000
