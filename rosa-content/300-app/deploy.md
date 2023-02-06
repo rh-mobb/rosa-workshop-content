@@ -60,7 +60,7 @@ Our application uses the AWS SDK to make connections to Amazon DynamoDB. While w
 1. First, create a service account to use to assume an IAM role. To do so, run the following command:
 
     ```bash
-    oc create serviceaccount minesweeper
+    oc -n microsweeper-ex create serviceaccount microsweeper
     ```
 
 1. Next, let's create a trust policy document which will define what service account can assume our role. To create the trust policy document, run the following command:
@@ -133,7 +133,7 @@ Now that we've got a DynamoDB instance up and running and our IRSA configuration
     cat <<EOF > ./src/main/resources/application.properties
     # AWS DynamoDB configurations
     %dev.quarkus.dynamodb.endpoint-override=http://localhost:8000
-    %prod.quarkus.dynamodb.aws.region=$(aws sts get-caller-identity --query 'Account' --output text)
+    %prod.quarkus.dynamodb.aws.region=${AWS_DEFAULT_REGION}
     %prod.quarkus.dynamodb.aws.credentials.type=default
     dynamodb.table=${WS_USER}-microsweeper-scores
 
