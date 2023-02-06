@@ -133,7 +133,7 @@ Now that we've got a DynamoDB instance up and running and our IRSA configuration
     cat <<EOF > ./src/main/resources/application.properties
     # AWS DynamoDB configurations
     %dev.quarkus.dynamodb.endpoint-override=http://localhost:8000
-    %prod.quarkus.dynamodb.aws.region=${AWS_DEFAULT_REGION}
+    %prod.quarkus.openshift.env.vars.aws_region=${AWS_DEFAULT_REGION}
     %prod.quarkus.dynamodb.aws.credentials.type=default
     dynamodb.table=${WS_USER}-microsweeper-scores
 
