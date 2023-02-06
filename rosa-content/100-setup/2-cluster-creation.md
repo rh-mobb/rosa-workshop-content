@@ -71,7 +71,7 @@ rosa create user-role --mode auto --yes
     --operator-roles-prefix ${WS_USER/_/-}-$UNIQUE \
     --tags created-by:${WS_USER} \
     --multi-az \
-    --region us-west-2 \
+    --region ${AWS_DEFAULT_REGION} \
     --version 4.11.17 \
     --replicas 3 \
     --compute-machine-type m5.xlarge \
@@ -110,6 +110,17 @@ rosa create user-role --mode auto --yes
     ```
     I: Creating OIDC provider using 'arn:aws:iam::395050934327:user/user1_mobbws'
     I: Created OIDC provider with ARN 'arn:aws:iam::395050934327:oidc-provider/rh-oidc.s3.us-east-1.amazonaws.com/21edffbu0mg2rfimbt378l3dmob3mrjb'
+    ```
+
+1. (Optional) Watch the cluster as it runs through the installation process. 
+
+    ```bash
+    rosa logs install -c ${WS_USER/_/-} --watch
+    ```
+
+    You will see a significant amount of output, evenutally ending with something similar to:
+    ```
+    I: Cluster 'user1-mobbws' has been successfully installed
     ```
 
 

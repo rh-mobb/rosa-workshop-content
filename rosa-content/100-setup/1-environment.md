@@ -2,9 +2,9 @@
 
 Your workshop environment consists of several components which have been pre-configured and are ready to use. This includes a [Amazon Web Services (AWS)](https://aws.amazon.com){:target="_blank"} account, an [OpenShift Cluster Manager](https://console.redhat.com/openshift){:target="_blank"} account, and many other supporting resources.
 
-To access your working environment, you'll need to log into the AWS Management Console by [clicking here](https://it-cloud-aws-mobb-san-workshop.signin.aws.amazon.com/console){:target="_blank"}.
+While it is not required, you can access your working environment by logging into the AWS Management Console by [clicking here](https://it-cloud-aws-mobb-san-workshop.signin.aws.amazon.com/console){:target="_blank"}. Do note, the permissions granted to your individual user account is restricted to the AWS `ReadOnlyAccess` and `CloudShellFullAccess` IAM policies. This allows you to view resources in the account but not modify them, while still using AWS CloudShell.
 
-When prompted, you'll log in with the credentials provided by the workshop team.
+When logging in to the [AWS Management Console](https://it-cloud-aws-mobb-san-workshop.signin.aws.amazon.com/console){:target="_blank"}, you'll log in with the credentials provided by the workshop team.
 
 !!! warning "Log out of existing AWS sessions"
 
@@ -12,8 +12,8 @@ When prompted, you'll log in with the credentials provided by the workshop team.
 
 ### Pre-created Resources
 
-- IAM user (with login and programmatic access keys)
-- Cloud bastion host
+- IAM user (with `ReadOnlyAccess` and `CloudShellFullAccess` IAM policies and console access)
+- Cloud bastion host (with a special IAM instance profile that allows a permissions scope similar to the AWS `AdministratorAccess` policy)
 
 ### Access the Workshop Environment
 

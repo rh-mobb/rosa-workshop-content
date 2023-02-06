@@ -10,14 +10,6 @@ It's time for us to put our cluster to work and deploy a workload. We're going t
     oc new-project microsweeper-ex
     ```
 
-1. The AWS IAM credentials assigned to your user will need to be available for the app to talk to DynamoDB, but we also need to keep them secure. We'll create an OpenShift `Secret` resource to store them:
-
-    ```bash
-    oc create secret generic microsweeper-dynamo-creds \
-    --from-literal AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) \
-    --from-literal AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key) \
-    --from-literal AWS_REGION=$(aws configure get region)
-    ```
 1. Create the Amazon DynamoDB table resource. To do so, run the following command:
 
     ```bash
@@ -61,9 +53,61 @@ It's time for us to put our cluster to work and deploy a workload. We're going t
     }
     ```
 
+## IAM Roles for Service Account (IRSA) Configuration
+
+Our application uses the AWS SDK to make connections to Amazon DynamoDB. While we can use static IAM credentials to do this, this is against AWS' recommended best practices. Instead AWS recommends the use of AWS' Secure Token Service (STS). Lucky for us, we've already deployed our ROSA cluster using AWS STS, so using IAM Roles for Service Accounts (IRSA), also referred to as pod identity, is easy! 
+
+1. First, create a service account to use to assume an IAM role. To do so, run the following command:
+
+    ```bash
+    oc create serviceaccount minesweeper
+    ```
+
+1. Next, let's create a trust policy document which will define what service account can assume our role. To create the trust policy document, run the following command:
+
+    ```json
+    cat <<EOF > ./trust-policy.json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Federated": "arn:aws:iam::$(aws sts get-caller-identity --query 'Account' --output text):oidc-provider/$(rosa describe cluster -c ${WS_USER/_/-} -o json | jq -r .aws.sts.oidc_endpoint_url | sed -e 's/^https:\/\///')" 
+                },
+                "Action": "sts:AssumeRoleWithWebIdentity",
+                "Condition": {
+                    "StringEquals": {
+                        "$(rosa describe cluster -c ${WS_USER/_/-} -o json | jq -r .aws.sts.oidc_endpoint_url | sed -e 's/^https:\/\///'):sub": "system:serviceaccount:microsweeper-ex:microsweeper" 
+                    }
+                }
+            }
+        ]
+    }
+    EOF
+    ```
+
+1. Next, let's take the trust policy document and use it to create a role. To do so, run the following command:
+
+    ```bash
+    aws iam create-role --role-name ${WS_USER}_irsa --assume-role-policy-document file://trust-policy.json --description "${WS_USER} IRSA Role"
+    ```
+
+1. Next, let's attach the `AmazonDynamoDBFullAccess` policy to our newly created IAM role. This will allow our application to read and write to our Amazon DynamoDB table. To do so, run the following command:
+
+    ```bash
+    aws iam attach-role-policy --role-name ${WS_USER}_irsa --policy-arn=arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+    ```
+
+1. Finally, let's annotate the service account with the ARN of the IAM role we created above. To do so, run the following command:
+
+    ```bash
+    oc -n microsweeper-ex annotate serviceaccount microsweeper eks.amazonaws.com/role-arn=arn:aws:iam::$(aws sts get-caller-identity --query 'Account' --output text):role/${WS_USER}_irsa
+    ```
+
 ## Build and deploy the Microsweeper app
 
-Now that we've got a DynamoDB instance up and running, let's build and deploy our application.
+Now that we've got a DynamoDB instance up and running and our IRSA configuration completed, let's build and deploy our application.
 
 1. First, let's clone the application from GitHub. To do so, run the following command:
 
@@ -88,12 +132,10 @@ Now that we've got a DynamoDB instance up and running, let's build and deploy ou
     ```xml
     cat <<EOF > ./src/main/resources/application.properties
     # AWS DynamoDB configurations
-    %prod.quarkus.dynamodb.aws.region=$(aws configure get region)
+    %dev.quarkus.dynamodb.endpoint-override=http://localhost:8000
+    %prod.quarkus.dynamodb.aws.region=$(aws sts get-caller-identity --query 'Account' --output text)
     %prod.quarkus.dynamodb.aws.credentials.type=default
     dynamodb.table=${WS_USER}-microsweeper-scores
-
-    # Maps our secret into the container as environment variables
-    quarkus.openshift.env.secrets=microsweeper-dynamo-creds
 
     # OpenShift configurations
     %prod.quarkus.kubernetes-client.trust-certs=true
@@ -101,6 +143,7 @@ Now that we've got a DynamoDB instance up and running, let's build and deploy ou
     %prod.quarkus.kubernetes.deployment-target=openshift
     %prod.quarkus.openshift.build-strategy=docker
     %prod.quarkus.openshift.route.expose=true
+    %prod.quarkus.openshift.service-account=microsweeper
 
     # To make Quarkus use Deployment instead of DeploymentConfig
     %prod.quarkus.openshift.deployment-kind=Deployment
