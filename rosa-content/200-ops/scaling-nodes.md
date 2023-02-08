@@ -44,7 +44,7 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
 1. Now that we know that we have three worker nodes, let's create a MachinePool to add a new worker node using the ROSA CLI. To do so, run the following command:
 
     ```bash
-    rosa create machinepool -c ${WS_USER/_/-} --availability-zone us-west-2a --replicas 1 --name workshop --instance-type m5.xlarge
+    rosa create machinepool -c ${WS_USER/_/-} --availability-zone ${AWS_DEFAULT_REGION}a --replicas 1 --name workshop --instance-type m5.xlarge
     ```
 
     The output of the command should look something like this:
