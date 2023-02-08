@@ -36,9 +36,9 @@ The cluster autoscaler adjusts the size of an ROSA cluster to meet the resource 
 
     ```{.text .no-copy}
     NAME                                   REF KIND     REF NAME                        MIN   MAX   AGE
-    user1-mobbws-6sj5f-worker-us-west-2a   MachineSet   user1-mobbws-6sj5f-worker-us-west-2a   1     2     18s
-    user1-mobbws-6sj5f-worker-us-west-2b   MachineSet   user1-mobbws-6sj5f-worker-us-west-2b   1     2     18s
-    user1-mobbws-6sj5f-worker-us-west-2c   MachineSet   user1-mobbws-6sj5f-worker-us-west-2c   1     2     18s
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a   MachineSet   user1-mobbws-6sj5f-worker-{{ aws_region }}a   1     2     18s
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b   MachineSet   user1-mobbws-6sj5f-worker-{{ aws_region }}b   1     2     18s
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c   MachineSet   user1-mobbws-6sj5f-worker-{{ aws_region }}c   1     2     18s
     ```
 
 1. And finally, let's check to see that our cluster autoscaler has been created. To do so, run the following command:
@@ -121,12 +121,12 @@ Now let's test the cluster autoscaler and see it in action. To do so, we'll depl
 
     ```{.text .no-copy}
     NAME                                   DESIRED   CURRENT   READY   AVAILABLE   AGE
-    user1-mobbws-6sj5f-infra-us-west-2a    1         1         1       1           20h
-    user1-mobbws-6sj5f-infra-us-west-2b    1         1         1       1           20h
-    user1-mobbws-6sj5f-infra-us-west-2c    1         1         1       1           20h
-    user1-mobbws-6sj5f-worker-us-west-2a   2         2         1       1           20h
-    user1-mobbws-6sj5f-worker-us-west-2b   2         2         1       1           20h
-    user1-mobbws-6sj5f-worker-us-west-2c   2         2         1       1           20h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}a    1         1         1       1           20h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}b    1         1         1       1           20h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}c    1         1         1       1           20h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a   2         2         1       1           20h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b   2         2         1       1           20h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c   2         2         1       1           20h
     ```
 
     This shows that the cluster autoscaler is working on scaling multiple MachineSets up to 2.
@@ -141,15 +141,15 @@ Now let's test the cluster autoscaler and see it in action. To do so, we'll depl
     Your output will look like this:
 
     ```{.text .no-copy}
-    Every 2.0s: ip-10-0-3-193.us-west-2.compute.internal: Tue Jan 24 21:32:18 2023
+    Every 2.0s: ip-10-0-3-193.{{ aws_region }}.compute.internal: Tue Jan 24 21:32:18 2023
 
     NAME                                         PHASE         TYPE        REGION      ZONE         AGE
-    user1-mobbws-6sj5f-worker-us-west-2a-frzrq   Provisioned   m5.xlarge   us-west-2   us-west-2a   2m54s
-    user1-mobbws-6sj5f-worker-us-west-2a-jrxnz   Running       m5.xlarge   us-west-2   us-west-2a   20h
-    user1-mobbws-6sj5f-worker-us-west-2b-274j7   Provisioned   m5.xlarge   us-west-2   us-west-2b   2m55s
-    user1-mobbws-6sj5f-worker-us-west-2b-2j8lc   Running       m5.xlarge   us-west-2   us-west-2b   20h
-    user1-mobbws-6sj5f-worker-us-west-2c-4vswp   Provisioned   m5.xlarge   us-west-2   us-west-2c   2m54s
-    user1-mobbws-6sj5f-worker-us-west-2c-w8jl6   Running       m5.xlarge   us-west-2   us-west-2c   20h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a-frzrq   Provisioned   m5.xlarge   {{ aws_region }}   {{ aws_region }}a   2m54s
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a-jrxnz   Running       m5.xlarge   {{ aws_region }}   {{ aws_region }}a   20h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b-274j7   Provisioned   m5.xlarge   {{ aws_region }}   {{ aws_region }}b   2m55s
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b-2j8lc   Running       m5.xlarge   {{ aws_region }}   {{ aws_region }}b   20h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c-4vswp   Provisioned   m5.xlarge   {{ aws_region }}   {{ aws_region }}c   2m54s
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c-w8jl6   Running       m5.xlarge   {{ aws_region }}   {{ aws_region }}c   20h
     ```
 
     !!! info

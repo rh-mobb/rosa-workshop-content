@@ -17,7 +17,7 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
 
     ```{.text .no-copy}
     ID       AUTOSCALING  REPLICAS  INSTANCE TYPE  LABELS    TAINTS    AVAILABILITY ZONES                    SUBNETS    SPOT INSTANCES
-    Default  No           3         m5.xlarge                          us-west-2a, us-west-2b, us-west-2c               N/A
+    Default  No           3         m5.xlarge                          {{ aws_region }}a, {{ aws_region }}b, {{ aws_region }}c               N/A
     ```
 
 1. Now, let's take a look at the machines inside of the ROSA cluster that have been created according to the instructions provided by the above MachinePools. To do so, run the following command:
@@ -30,15 +30,15 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
 
     ```{.text .no-copy}
     NAME                                         PHASE     TYPE         REGION      ZONE         AGE
-    user1-mobbws-6sj5f-infra-us-west-2a-cb56h    Running   r5.xlarge    us-west-2   us-west-2a   18h
-    user1-mobbws-6sj5f-infra-us-west-2b-t6bdg    Running   r5.xlarge    us-west-2   us-west-2b   18h
-    user1-mobbws-6sj5f-infra-us-west-2c-9v4pq    Running   r5.xlarge    us-west-2   us-west-2c   18h
-    user1-mobbws-6sj5f-master-0                  Running   m5.2xlarge   us-west-2   us-west-2a   18h
-    user1-mobbws-6sj5f-master-1                  Running   m5.2xlarge   us-west-2   us-west-2b   18h
-    user1-mobbws-6sj5f-master-2                  Running   m5.2xlarge   us-west-2   us-west-2c   18h
-    user1-mobbws-6sj5f-worker-us-west-2a-jrxnz   Running   m5.xlarge    us-west-2   us-west-2a   18h
-    user1-mobbws-6sj5f-worker-us-west-2b-2j8lc   Running   m5.xlarge    us-west-2   us-west-2b   18h
-    user1-mobbws-6sj5f-worker-us-west-2c-w8jl6   Running   m5.xlarge    us-west-2   us-west-2c   18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}a-cb56h    Running   r5.xlarge    {{ aws_region }}   {{ aws_region }}a   18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}b-t6bdg    Running   r5.xlarge    {{ aws_region }}   {{ aws_region }}b   18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}c-9v4pq    Running   r5.xlarge    {{ aws_region }}   {{ aws_region }}c   18h
+    user1-mobbws-6sj5f-master-0                  Running   m5.2xlarge   {{ aws_region }}   {{ aws_region }}a   18h
+    user1-mobbws-6sj5f-master-1                  Running   m5.2xlarge   {{ aws_region }}   {{ aws_region }}b   18h
+    user1-mobbws-6sj5f-master-2                  Running   m5.2xlarge   {{ aws_region }}   {{ aws_region }}c   18h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a-jrxnz   Running   m5.xlarge    {{ aws_region }}   {{ aws_region }}a   18h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b-2j8lc   Running   m5.xlarge    {{ aws_region }}   {{ aws_region }}b   18h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c-w8jl6   Running   m5.xlarge    {{ aws_region }}   {{ aws_region }}c   18h
     ```
 
 1. Now that we know that we have three worker nodes, let's create a MachinePool to add a new worker node using the ROSA CLI. To do so, run the following command:
@@ -55,7 +55,7 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
     I: To view all machine pools, run 'rosa list machinepools -c user1-mobbws'
     ```
 
-    This command adds a single m5.xlarge instance to the us-west-2a availability zone. 
+    This command adds a single m5.xlarge instance to the {{ aws_region }}a availability zone. 
 
 1. Now, let's scale up our selected MachinePool from one to two machines. To do so, run the following command:
 
@@ -79,13 +79,13 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
 
     ```{.text .no-copy}
     NAME                                      DESIRED   CURRENT   READY   AVAILABLE   AGE
-    user1-mobbws-6sj5f-infra-us-west-2a       1         1         1       1           18h
-    user1-mobbws-6sj5f-infra-us-west-2b       1         1         1       1           18h
-    user1-mobbws-6sj5f-infra-us-west-2c       1         1         1       1           18h
-    user1-mobbws-6sj5f-worker-us-west-2a      1         1         1       1           19h
-    user1-mobbws-6sj5f-worker-us-west-2b      1         1         1       1           19h
-    user1-mobbws-6sj5f-worker-us-west-2c      1         1         1       1           19h
-    user1-mobbws-6sj5f-workshop-us-west-2a    2         2         1       1           4m36s
+    user1-mobbws-6sj5f-infra-{{ aws_region }}a       1         1         1       1           18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}b       1         1         1       1           18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}c       1         1         1       1           18h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a      1         1         1       1           19h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b      1         1         1       1           19h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c      1         1         1       1           19h
+    user1-mobbws-6sj5f-workshop-{{ aws_region }}a    2         2         1       1           4m36s
     ```
 
     Note, that the number of *desired* and *current* nodes matches the scale we specified, but only one is *ready* and *available*.
@@ -100,17 +100,17 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
 
     ```{.text .no-copy}
     NAME                                            PHASE         TYPE         REGION      ZONE         AGE
-    user1-mobbws-6sj5f-infra-us-west-2a-cb56h       Running       r5.xlarge    us-west-2   us-west-2a   18h
-    user1-mobbws-6sj5f-infra-us-west-2b-t6bdg       Running       r5.xlarge    us-west-2   us-west-2b   18h
-    user1-mobbws-6sj5f-infra-us-west-2c-9v4pq       Running       r5.xlarge    us-west-2   us-west-2c   18h
-    user1-mobbws-6sj5f-master-0                     Running       m5.2xlarge   us-west-2   us-west-2a   19h
-    user1-mobbws-6sj5f-master-1                     Running       m5.2xlarge   us-west-2   us-west-2b   19h
-    user1-mobbws-6sj5f-master-2                     Running       m5.2xlarge   us-west-2   us-west-2c   19h
-    user1-mobbws-6sj5f-worker-us-west-2a-jrxnz      Running       m5.xlarge    us-west-2   us-west-2a   18h
-    user1-mobbws-6sj5f-worker-us-west-2b-2j8lc      Running       m5.xlarge    us-west-2   us-west-2b   18h
-    user1-mobbws-6sj5f-worker-us-west-2c-w8jl6      Running       m5.xlarge    us-west-2   us-west-2c   18h
-    user1-mobbws-6sj5f-workshop-us-west-2a-6gz7w    Provisioned   m5.xlarge    us-west-2   us-west-2a   51s
-    user1-mobbws-6sj5f-workshop-us-west-2a-xh584    Running       m5.xlarge    us-west-2   us-west-2a   3m43s
+    user1-mobbws-6sj5f-infra-{{ aws_region }}a-cb56h       Running       r5.xlarge    {{ aws_region }}   {{ aws_region }}a   18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}b-t6bdg       Running       r5.xlarge    {{ aws_region }}   {{ aws_region }}b   18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}c-9v4pq       Running       r5.xlarge    {{ aws_region }}   {{ aws_region }}c   18h
+    user1-mobbws-6sj5f-master-0                     Running       m5.2xlarge   {{ aws_region }}   {{ aws_region }}a   19h
+    user1-mobbws-6sj5f-master-1                     Running       m5.2xlarge   {{ aws_region }}   {{ aws_region }}b   19h
+    user1-mobbws-6sj5f-master-2                     Running       m5.2xlarge   {{ aws_region }}   {{ aws_region }}c   19h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a-jrxnz      Running       m5.xlarge    {{ aws_region }}   {{ aws_region }}a   18h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b-2j8lc      Running       m5.xlarge    {{ aws_region }}   {{ aws_region }}b   18h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c-w8jl6      Running       m5.xlarge    {{ aws_region }}   {{ aws_region }}c   18h
+    user1-mobbws-6sj5f-workshop-{{ aws_region }}a-6gz7w    Provisioned   m5.xlarge    {{ aws_region }}   {{ aws_region }}a   51s
+    user1-mobbws-6sj5f-workshop-{{ aws_region }}a-xh584    Running       m5.xlarge    {{ aws_region }}   {{ aws_region }}a   3m43s
     ```
 
 1. Now let's scale the cluster back down to a total of 4 worker nodes by scaling down the "Workshop" Machine Pool. To do so, run the following command:
@@ -129,13 +129,13 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
 
     ```{.text .no-copy}
     NAME                                      DESIRED   CURRENT   READY   AVAILABLE   AGE
-    user1-mobbws-6sj5f-infra-us-west-2a       1         1         1       1           18h
-    user1-mobbws-6sj5f-infra-us-west-2b       1         1         1       1           18h
-    user1-mobbws-6sj5f-infra-us-west-2c       1         1         1       1           18h
-    user1-mobbws-6sj5f-worker-us-west-2a      1         1         1       1           19h
-    user1-mobbws-6sj5f-worker-us-west-2b      1         1         1       1           19h
-    user1-mobbws-6sj5f-worker-us-west-2c      1         1         1       1           19h
-    user1-mobbws-6sj5f-workshop-us-west-2a    1         1         1       1           4m36s
+    user1-mobbws-6sj5f-infra-{{ aws_region }}a       1         1         1       1           18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}b       1         1         1       1           18h
+    user1-mobbws-6sj5f-infra-{{ aws_region }}c       1         1         1       1           18h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}a      1         1         1       1           19h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}b      1         1         1       1           19h
+    user1-mobbws-6sj5f-worker-{{ aws_region }}c      1         1         1       1           19h
+    user1-mobbws-6sj5f-workshop-{{ aws_region }}a    1         1         1       1           4m36s
     ```
 
 1. Now let's scale the cluster back down to a total of 3 worker nodes by deleting the "Workshop" Machine Pool. To do so, run the following command:

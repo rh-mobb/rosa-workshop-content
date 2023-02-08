@@ -53,6 +53,10 @@ docs_dir: rosa-content
 # plugins
 plugins:
 - section-index
+- macros
+
+extra:
+  aws_region: eu-central-1
 
 # Extensions
 markdown_extensions:

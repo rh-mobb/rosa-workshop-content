@@ -47,7 +47,7 @@ It's time for us to put our cluster to work and deploy a workload. We're going t
             },
             "TableSizeBytes": 0,
             "ItemCount": 0,
-            "TableArn": "arn:aws:dynamodb:us-west-2:395050934327:table/user1_mobbws",
+            "TableArn": "arn:aws:dynamodb:{{ aws_region }}:395050934327:table/user1_mobbws",
             "TableId": "41160972-56e2-459d-afec-b8a58061cb31"
         }
     }

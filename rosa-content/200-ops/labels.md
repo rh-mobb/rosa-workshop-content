@@ -21,12 +21,12 @@ While you can directly add a label to a node, it is not recommended because node
     Your output will look something like this:
 
     ```{.text .no-copy}
-    node/ip-10-0-130-107.us-west-2.compute.internal
-    node/ip-10-0-146-138.us-west-2.compute.internal
-    node/ip-10-0-161-54.us-west-2.compute.internal
-    node/ip-10-0-190-160.us-west-2.compute.internal
-    node/ip-10-0-218-118.us-west-2.compute.internal
-    node/ip-10-0-221-22.us-west-2.compute.internal
+    node/ip-10-0-130-107.{{ aws_region }}.compute.internal
+    node/ip-10-0-146-138.{{ aws_region }}.compute.internal
+    node/ip-10-0-161-54.{{ aws_region }}.compute.internal
+    node/ip-10-0-190-160.{{ aws_region }}.compute.internal
+    node/ip-10-0-218-118.{{ aws_region }}.compute.internal
+    node/ip-10-0-221-22.{{ aws_region }}.compute.internal
     ```
 
     Pending that your output shows one or more node, this demonstrates that our machine pool and associated nodes are properly annotated!
