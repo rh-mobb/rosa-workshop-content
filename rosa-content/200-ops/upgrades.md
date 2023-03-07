@@ -24,7 +24,7 @@ For more information on how ROSA's Upgrade Service works, please see the [Red Ha
 
     ![OCM - Update Status](../assets/images/ocm-update-status.png){ align=center }
 
-1. Now, you're presented with a number of versions. For this exercise, we'll select version 4.11.22, the recommended version, and then hit *Next*.
+1. Now, you're presented with a number of versions. For this exercise, we'll select the recommended version, and then hit *Next*.
 
     ![OCM - Update Version Select](../assets/images/ocm-update-version-select.png){ align=center }
 
@@ -34,7 +34,7 @@ For more information on how ROSA's Upgrade Service works, please see the [Red Ha
 
 1. Finally, select the *Confirm Update* button and then the *Close* button.
 
-    ![OCM - Update Confirm](../assets/images/ocm-update-schedule-select.png){ align=center }
-    ![OCM - Update Close](../assets/images/ocm-update-schedule-select.png){ align=center }
+    ![OCM - Update Confirm](../assets/images/ocm-update-confirm.png){ align=center }
+    ![OCM - Update Close](../assets/images/ocm-update-close.png){ align=center }
 
     Congratulations! You've successfully scheduled an upgrade of your cluster for tomorrow at this time. While the workshop environment will be deleted before then, you now have the experience to schedule upgrades in the future.
