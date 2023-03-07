@@ -1,6 +1,6 @@
 # Create an ROSA Cluster
 
-Due to the consolidated nature of this workshop, you will first deploy a cluster yourself, before switching to a pre-created workshop cluster to finish the remainder of the content. This cluster will be dedicated to you. 
+During this workshop, you will be working on a cluster that you will create yourself in this step. This cluster will be dedicated to you. 
 
 The first step we need to do is assign an environment variable to this user ID. All the AWS resources that you will be creating will be tagged with your user ID to ensure that only you can modify it.
 
@@ -63,12 +63,12 @@ rosa create user-role --mode auto --yes
     ```bash
     rosa create cluster \
     --sts \
-    --cluster-name ${WS_USER/_mobbws/-ex} \
+    --cluster-name ${WS_USER/_/-} \
     --role-arn arn:aws:iam::395050934327:role/ManagedOpenShift-Installer-Role \
     --support-role-arn arn:aws:iam::395050934327:role/ManagedOpenShift-Support-Role \
     --controlplane-iam-role arn:aws:iam::395050934327:role/ManagedOpenShift-ControlPlane-Role \
     --worker-iam-role arn:aws:iam::395050934327:role/ManagedOpenShift-Worker-Role \
-    --operator-roles-prefix ${WS_USER/_mobbws/-ex}-${WS_UNIQUE} \
+    --operator-roles-prefix ${WS_USER/_/-}-${WS_UNIQUE} \
     --tags created-by:${WS_USER} \
     --multi-az \
     --region ${AWS_DEFAULT_REGION} \
@@ -88,7 +88,7 @@ rosa create user-role --mode auto --yes
 1. Create the necessary operator roles for the cluster to deploy. 
 
     ```bash
-    rosa create operator-roles --cluster ${WS_USER/_mobbws/-ex} --mode auto --yes
+    rosa create operator-roles --cluster ${WS_USER/_/-} --mode auto --yes
     ```
 
     Your output should look similar to:
@@ -102,7 +102,7 @@ rosa create user-role --mode auto --yes
 1. Create the OIDC provider necessary to allow the cluster to use the STS roles we've created. 
 
     ```bash
-    rosa create oidc-provider --cluster ${WS_USER/_mobbws/-ex} --mode auto --yes
+    rosa create oidc-provider --cluster ${WS_USER/_/-} --mode auto --yes
     ```
 
     Your output should look similar to:
@@ -115,7 +115,7 @@ rosa create user-role --mode auto --yes
 1. (Optional) Watch the cluster as it runs through the installation process. 
 
     ```bash
-    rosa logs install -c ${WS_USER/_mobbws/-ex} --watch
+    rosa logs install -c ${WS_USER/_/-} --watch
     ```
 
     You will see a significant amount of output, eventually ending with something similar to:
