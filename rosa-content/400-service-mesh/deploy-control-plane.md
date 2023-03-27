@@ -45,7 +45,7 @@ Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a tr
 
     ```bash
     oc create -n istio-system -f \
-      https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/istio_installation.yaml
+      https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/istio_installation.yaml
     ```
 
 

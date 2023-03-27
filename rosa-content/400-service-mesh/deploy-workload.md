@@ -42,7 +42,7 @@
 
     ```bash
     oc apply -n bookinfo -f \
-      https://raw.githubusercontent.com/rh-mobb/aro-hackathon-content/main/aro-content/assets/bookinfo.yaml
+      https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/bookinfo.yaml
     ```
 
     You should see output similar to the following:
@@ -68,7 +68,7 @@
 
     ```bash
     oc apply -n bookinfo -f \
-      https://raw.githubusercontent.com/rh-mobb/aro-hackathon-content/main/aro-content/assets/bookinfo-gateway.yaml
+      https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/bookinfo-gateway.yaml
     ```
 
     You should see output similar to the following:
@@ -91,7 +91,7 @@
 
 ```bash
 oc apply -n bookinfo -f \
-  https://raw.githubusercontent.com/rh-mobb/aro-hackathon-content/main/aro-content/assets/destination-rule-all.yaml
+  https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/destination-rule-all.yaml
 ```
 
 You should see output similar to the following:

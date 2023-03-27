@@ -2,6 +2,8 @@
 
 As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we created a temporary cluster-admin user using the `rosa create admin` command. This uses htpasswd as a local identity provider to allow you to access the cluster. Most ROSA users will want to connect ROSA to a single-sign-on provider, such as Amazon Cognito. In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
 
+## Configure Amazon Cognito
+
 1. First, we need to determine the OAuth callback URL, which we will use to tell Amazon Cognito where it should send authentication responses. To do so, run the following command:
 
     ```bash
@@ -23,17 +25,6 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
     --allowed-o-auth-flows-user-pool-client
     ```
 
-1. Next, let's use the manifest we created above to create an Azure AD App for your cluster. To do so, run the following command:
-
-    ```bash
-    az ad app create \
-      --display-name ${AZ_USER}-idp \
-      --web-redirect-uris ${IDP_CALLBACK} \
-      --sign-in-audience AzureADMyOrg \
-      --optional-claims @manifest.json
-    APPID=$(az ad app list --display-name ${AZ_USER}-idp --query "[].appId" -o tsv)
-    ```
-
     The output of the command will look something like this:
 
     ```json
@@ -46,6 +37,8 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
     ```
 
     **Ensure that you capture the `ClientId` and `ClientSecret` before moving on to the next steps and store it somewhere safe.**
+
+## Configure ROSA
 
 1. Finally, we need to configure OpenShift to use Amazon Cognito as its identity provider. While Red Hat OpenShift Service on AWS (ROSA) offers the ability to configure identity providers via the OpenShift Cluster Manager (OCM),we're going to configure the cluster’s OAuth provider via the rosa CLI. To do so, run the following command, making sure to replace the variable specified:
     ```bash

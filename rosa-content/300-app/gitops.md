@@ -2,7 +2,7 @@
 
 1. From the OpenShift Console Administrator view click through **HOME** -> **Operators** -> **Operator Hub**, search for "openshift gitops" and hit Install.  Accept all defaults.
 
-    ![OpenShift Web Console - OpenShift GitOps in OperatorHub](./images/gitops_operator.png)
+    ![OpenShift Web Console - OpenShift GitOps in OperatorHub](../assets/images/gitops_operator.png)
 
 1. Create a new project
 
@@ -75,11 +75,11 @@
     oc get route argocd-server -n bgd -o jsonpath='{.spec.host}{"\n"}'
     ```
 
-    ![](./images/argo_app1.png)
+    ![](../assets/images/argo_app1.png)
 
 1. Click on the Application to show its topology
 
-    ![](./images/argo_sync.png)
+    ![](../assets/images/argo_sync.png)
 
 1. Verify that OpenShift sees the Deployment as rolled out
 
@@ -95,7 +95,7 @@
 
 1. You should see a green box in the website like so
 
-    ![](./images/bgd_green.png)
+    ![](../assets/images/bgd_green.png)
 
 
 1. Patch the OpenShift resource to force it to be out of sync with git
@@ -108,12 +108,12 @@
 
 1. Refresh Your browser and you should see a blue box in the website like so
 
-    ![](./images/app_blue.png)
+    ![](../assets/images/app_blue.png)
 
 1. Meanwhile check ArgoCD it should show the application as out of sync. Click the Sync button to have it revert the change you made in OpenShift
 
-    ![](./images/sync_bgd.png)
+    ![](../assets/images/sync_bgd.png)
 
 1. Check again, you should see a green box in the website like so
 
-    ![](./images/bgd_green.png)
+    ![](../assets/images/bgd_green.png)

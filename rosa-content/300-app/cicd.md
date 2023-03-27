@@ -265,21 +265,21 @@ Let's take a look at the OpenShift Web Console to see what was created and if th
 
 1. From the OpenShift Web Console, click on *Pipelines* ->*Tasks*.
 
-    ![Image](images/pipeline-tasks-ocp.png)
+    ![Image](../assets/images/pipeline-tasks-ocp.png)
 
     Notice the 5 tasks that we imported and click into them to view the YAML definitions.
 
 1. Next, lets look at the Pipeline. Click on *Pipelines*. Notice that it is either still running, or the last run was successful. Click on *maven-pipeline* to view the pipeline details.
 
-    ![Image](images/pipeline-ocp.png)
+    ![Image](../assets/images/pipeline-ocp.png)
 
 1. On the following screen, click on *PipelineRuns* to view the status of each Pipeline Run.
 
-    ![Image](images/pipeline-run-ocp.png)
+    ![Image](../assets/images/pipeline-run-ocp.png)
 
 1. Lastly, click on the *PipelineRun* name and you can see all the details and steps of the pipeline. If your are curious, you can also view the logs of the different tasks that were run.
 
-    ![Image](images/pipeline-run-details-ocp.png)
+    ![Image](../assets/images/pipeline-run-details-ocp.png)
 
 1. Watch the PipelineRun page as the tasks complete and the PipelineRun finishes.
 
@@ -351,7 +351,7 @@ Before we test out our EventListener and Trigger, lets review what was created i
 1. From the OpenShift console, under Pipelines, click on Triggers.
 
 1. Browse the EventListener, TriggerTemplate and TriggerBindings that you just created.
-![Image](images/ocp-triggers.png)
+![Image](../assets/images/ocp-triggers.png)
 
 The next thing we need to do, is connect our EventListener with Git.  When an action, such as a git push, happens, git will need to call our EventListener to start the build and deploy process.
 
@@ -380,13 +380,13 @@ The next thing we need to do, is connect our EventListener with Git.  When an ac
 The last step we need to do, is configure GitHub to call this event listener URL when events occur.
 
 From your browser, go to your personal GitHub rosa-workshop-app repository, and click on *Settings*.
-![Image](images/git-settings.png)
+![Image](../assets/images/git-settings.png)
 
 On the next screen, click on *Webhooks*.
-![Image](images/git-settings-webhook.png)
+![Image](../assets/images/git-settings-webhook.png)
 
 Click on the *Add Webhook* button.
-![Image](images/git-add-webhook.png)
+![Image](../assets/images/git-add-webhook.png)
 
 On the next screen, enter the following settings:
 
@@ -416,7 +416,7 @@ The secret you enter here for the git webhook, needs to match the value for the 
 
 Keep the remaining defaults, and click *Add webhook*.
 
-![Image](images/add-webhook.png)
+![Image](../assets/images/add-webhook.png)
 
 ### Test the Event Triggering
 
@@ -431,7 +431,7 @@ cd ~/gitops/rosa-workshop-app
 vi src/main/resources/META-INF/resources/index.html
 ```
 
-![Image](images/html-edit.png)
+![Image](../assets/images/html-edit.png)
 
 Now commit and push the change
 
@@ -447,16 +447,16 @@ As a bonus, if you want to look at the logs of the event listener, you can use t
 ```bash
 tkn eventlistener logs minesweeper-el
 ```
-![Image](images/tkn.png)
+![Image](../assets/images/tkn.png)
 
 Quickly switch over to your OpenShift Web Console, and watch the pipeline run.
 
-![Image](images/watch-pipeline.png)
+![Image](../assets/images/watch-pipeline.png)
 
 Once the pipeline finishes, check out the change.
 
 From the OpenShift Web Console, click on *Networking* -> *Routes*.
-![Image](images/route-2.png)
+![Image](../assets/images/route-2.png)
 
 Hopefully, you will see the updated application with a new title for the leaderboard!
-![Image](images/updated-minesweeper.png)
+![Image](../assets/images/updated-minesweeper.png)
