@@ -28,12 +28,12 @@ nav:
 #    - Automate Deploying the App with Tekton: 300-app/cicd.md
   - Make an App Resilient: 300-app/resilience.md
   - Service Mesh:
-    - Service Mesh: 500-service-mesh/introduction.md
-    - Deploy Service Mesh Operator: 500-service-mesh/install.md
-    - Deploy Control Plane: 500-service-mesh/deploy-control-plane.md
-    - Deploy Workloads: 500-service-mesh/deploy-workload.md
-    - Deploy Weighted Load Balancing: 500-service-mesh/weighted-routing.md
-    - Access Kiali Dashboard: 500-service-mesh/kiali.md
+    - Service Mesh: 400-service-mesh/introduction.md
+    - Deploy Service Mesh Operator: 400-service-mesh/install.md
+    - Deploy Control Plane: 400-service-mesh/deploy-control-plane.md
+    - Deploy Workloads: 400-service-mesh/deploy-workload.md
+    - Deploy Weighted Load Balancing: 400-service-mesh/weighted-routing.md
+    - Access Kiali Dashboard: 400-service-mesh/kiali.md
 
 # Theme Configuration
 theme:
