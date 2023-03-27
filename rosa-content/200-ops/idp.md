@@ -1,8 +1,6 @@
 # Configuring ROSA to use Amazon Cognito for authentication
 
-Your Red Hat OpenShift Service on AWS (ROSA) cluster has a built-in OAuth server. Developers and administrators do not really directly interact with the OAuth server itself, but instead interact with an external identity provider (such as Amazon Cognito) which is brokered by the OAuth server in the cluster. To learn more about cluster authentication, visit the [Red Hat documentation for identity provider configuration](https://docs.openshift.com/container-platform/latest/authentication/understanding-identity-provider.html){:target="_blank"}.
-
-In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
+As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we created a temporary cluster-admin user using the `rosa create admin` command. This uses htpasswd as a local identity provider to allow you to access the cluster. Most ROSA users will want to connect ROSA to a single-sign-on provider, such as Amazon Cognito. In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
 
 ## Configure Amazon Cognito to allow authentication from ROSA
 
@@ -75,8 +73,10 @@ In this section of the workshop, we'll configure Amazon Cognito as the cluster i
     oc adm policy add-cluster-role-to-user cluster-admin ${WS_USER}
     ```
 
-    !!! note "You're logged in to the OpenShift CLI already, so you can run this command. You can also grant these permissions via the rosa CLI by using the `rosa grant user cluster-admin` command.
+    !!! note "You're logged in to the OpenShift CLI already, so you can run this command. You can also grant these permissions via the rosa CLI by using the `rosa grant user cluster-admin` command."
 
-1. Logout from your OpenShift Web Console and browse back to the Console URL (`rosa describe cluster -c mrmc-idp-tst -o json | jq -r '.console.url'` if you have forgotten it) and you should see a new option to login called `Cognito`. Select that, and log in using your workshop Azure credentials.
+    !!! note "You're logged in to the OpenShift CLI already, so you can run this command. You can also grant these permissions via the rosa CLI by using the rosa grant user cluster-admin command.
+
+1. Logout from your OpenShift Web Console and browse back to the Console URL (`rosa describe cluster -c ${WS_USER/_/-} -o json | jq -r '.console.url'` if you have forgotten it) and you should see a new option to login called `Cognito`. Select that, and log in using your workshop Azure credentials.
 
     !!! warning "If you do not see a new **Cognito** login option, wait a few more minutes as this process can take a few minutes to deploy across the cluster and revisit the Console URL."

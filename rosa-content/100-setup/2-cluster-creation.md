@@ -113,4 +113,4 @@ rosa create user-role --mode auto --yes
 | `--replicas` | The number of worker node instances to deploy during cluster install. |
 | `--compute-machine-type` | The AWS instance type to use for worker nodes. |
 | `--machine-cidr`, `--service-cidr`, `--pod-cidr`, `--host-prefix` | The various network ranges to use for the cluster. |
-| `--mode`, `--yes` | Setting this to `mode=auto` and using `--yes` automatically create the necessary operator STS roles, along with the cluster's OIDC STS provider. |
+| `--mode`, `--yes` | Setting this to `--mode` to `auto` and using `--yes` automatically creates the necessary operator STS roles, along with the cluster's OIDC STS provider. |
