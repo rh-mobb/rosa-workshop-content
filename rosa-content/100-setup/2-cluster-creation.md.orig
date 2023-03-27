@@ -1,6 +1,6 @@
 # Create an ROSA Cluster
 
-During this workshop, you will be working on a cluster that you will create yourself in this step. This cluster will be dedicated to you. 
+During this workshop, you will be working on a cluster that you will create yourself in this step. This cluster will be dedicated to you.
 
 The first step we need to do is assign an environment variable to this user ID. All the AWS resources that you will be creating will be tagged with your user ID to ensure that only you can modify it.
 
@@ -16,11 +16,11 @@ Before we can create a ROSA cluster, we need to login to the ROSA CLI using a to
 
 1. First, [click here](https://console.redhat.com/openshift/token/rosa){:target="_blank"} and login to the OpenShift Cluster Manager using the provided workshop credentials.
 
-1. Next, click the *Load Token* button to generate a new login token. 
+1. Next, click the *Load Token* button to generate a new login token.
 
     ![OpenShift Cluster Manager - Generate Token](../assets/images/ocm-generate-token.png){ align=center }
 
-1. Next, copy the newly generated *Authentication Command*, **not the token itself**. 
+1. Next, copy the newly generated *Authentication Command*, **not the token itself**.
 
     ![OpenShift Cluster Manager - Copy Login Command](../assets/images/ocm-copy-login-command.png){ align=center }
 
@@ -54,7 +54,7 @@ rosa create user-role --mode auto --yes
 
     Normally, you would need to create additional STS roles before you could install the cluster. These roles are explained in more detail [here](https://docs.openshift.com/rosa/rosa_architecture/rosa-sts-about-iam-resources.html){:target="_blank"}.
 
-1. Create your cluster by running the following commands: 
+1. Create your cluster by running the following commands:
 
     !!! note
 
@@ -64,10 +64,10 @@ rosa create user-role --mode auto --yes
     rosa create cluster \
     --sts \
     --cluster-name ${WS_USER/_/-} \
-    --role-arn arn:aws:iam::395050934327:role/ManagedOpenShift-Installer-Role \
-    --support-role-arn arn:aws:iam::395050934327:role/ManagedOpenShift-Support-Role \
-    --controlplane-iam-role arn:aws:iam::395050934327:role/ManagedOpenShift-ControlPlane-Role \
-    --worker-iam-role arn:aws:iam::395050934327:role/ManagedOpenShift-Worker-Role \
+    --role-arn arn:aws:iam::${WS_AWS_ACCOUNT_ID}:role/ManagedOpenShift-Installer-Role \
+    --support-role-arn arn:aws:iam::${WS_AWS_ACCOUNT_ID}:role/ManagedOpenShift-Support-Role \
+    --controlplane-iam-role arn:aws:iam::${WS_AWS_ACCOUNT_ID}:role/ManagedOpenShift-ControlPlane-Role \
+    --worker-iam-role arn:aws:iam::${WS_AWS_ACCOUNT_ID}:role/ManagedOpenShift-Worker-Role \
     --operator-roles-prefix ${WS_USER/_/-}-${WS_UNIQUE} \
     --tags created-by:${WS_USER} \
     --multi-az \
@@ -85,7 +85,7 @@ rosa create user-role --mode auto --yes
 
         In this case, we've already given you a command to run to ensure you get a cluster with exactly the settings necessary for the workshop. The table at the bottom of this page explains what each of these options do, but you can also provide all of these settings by running `rosa create cluster` and following the interactive prompts!
 
-1. Create the necessary operator roles for the cluster to deploy. 
+1. Create the necessary operator roles for the cluster to deploy.
 
     ```bash
     rosa create operator-roles --cluster ${WS_USER/_/-} --mode auto --yes
@@ -99,7 +99,7 @@ rosa create user-role --mode auto --yes
     [...]
     ```
 
-1. Create the OIDC provider necessary to allow the cluster to use the STS roles we've created. 
+1. Create the OIDC provider necessary to allow the cluster to use the STS roles we've created.
 
     ```bash
     rosa create oidc-provider --cluster ${WS_USER/_/-} --mode auto --yes
@@ -112,7 +112,7 @@ rosa create user-role --mode auto --yes
     I: Created OIDC provider with ARN 'arn:aws:iam::395050934327:oidc-provider/rh-oidc.s3.us-east-1.amazonaws.com/21edffbu0mg2rfimbt378l3dmob3mrjb'
     ```
 
-1. (Optional) Watch the cluster as it runs through the installation process. 
+1. (Optional) Watch the cluster as it runs through the installation process.
 
     ```bash
     rosa logs install -c ${WS_USER/_/-} --watch
@@ -128,9 +128,9 @@ rosa create user-role --mode auto --yes
 
 | Option     | Description |
 | ----------- | ------------------------------------ |
-| `--sts`       | Use [AWS Secure Token Service](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html){:target="_blank"} to generate temporary, limited-privilege credentials for the cluster to use.  | 
-| `--cluster-name`       | The name of the cluster, in our case, we're using your username, but replacing the `_` with a `-` as underscores aren't allowed!                 | 
-| `--role-arn`, ` --support-role-arn`, ` --controlplane-iam-role`, `--worker-iam-role`    | These are account-level STS roles that we are using for the cluster and management service. | 
+| `--sts`       | Use [AWS Secure Token Service](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html){:target="_blank"} to generate temporary, limited-privilege credentials for the cluster to use.  |
+| `--cluster-name`       | The name of the cluster, in our case, we're using your username, but replacing the `_` with a `-` as underscores aren't allowed!                 |
+| `--role-arn`, ` --support-role-arn`, ` --controlplane-iam-role`, `--worker-iam-role`    | These are account-level STS roles that we are using for the cluster and management service. |
 | `--operator-roles-prefix`       | A prefix for other STS roles that operators in the cluster will use. |
 | `--tags` | A created-by tag for us to use to keep track of clusters and ensure isolation from other workshop participants. |
 | `--region` | The region the cluster will be deployed into. |

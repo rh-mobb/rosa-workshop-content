@@ -1,6 +1,6 @@
 # Introduction
 
-While OpenShift
+OpenShift stores logs and metrics inside the cluster by default, however it also provides tooling to forward both to various locations. Here we will configure your ROSA cluster to ship logs to AWS CloudWatch.
 
 
 ## Environment Setup
@@ -187,4 +187,10 @@ While OpenShift
           }
        ]
     }
+    ```
+
+1. Change back to your home directory
+
+    ```bash
+    cd ~
     ```
