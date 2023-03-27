@@ -15,7 +15,7 @@ nav:
   - Create ROSA Cluster: 100-setup/2-cluster-creation.md
   - Access Your Cluster: 100-setup/3-access-cluster.md
   - Day Two ROSA Operations:
-#    - Configuring OAuth2 authentication: 200-ops/idp/aad.md
+    - Configuring Cluster Authentication: 200-ops/idp.md
     - Managing Cluster Upgrades: 200-ops/upgrades.md
     - Managing Worker Nodes: 200-ops/scaling-nodes.md
     - Cluster Autoscaling: 200-ops/autoscaling.md
@@ -57,7 +57,7 @@ plugins:
 - macros
 
 extra:
-  aws_region: eu-central-1
+  aws_region: us-east-1
 
 # Extensions
 markdown_extensions:
