@@ -50,23 +50,16 @@ If you would like to read more about OpenShift Pipelines, [see the Red Hat docum
 
         **Do not** forget to delete this token once the workshop is over.
 
-1. Next, save the token to your cloud bastion host. To do so, run the following command, ensuring you replace the `INSERT_TOKEN_HERE` with your Personal Access Token:
+1. Next, save the token to your cloud bastion host. To do so, run the following command, ensuring you replace the `replaceme` with your Personal Access Token:
 
     ```bash
-    export GH_PAT=INSERT_TOKEN_HERE
+    export GH_PAT=replaceme
     ```
 
-1. Then, save your GitHub username as a variable. To do so, run the following command, ensuring you replace the `GITHUB_USER_ID` with your GitHub username.
+1. Then, save your GitHub username as a variable. To do so, run the following command, ensuring you replace the `replaceme` with your GitHub username.
 
     ```bash
-    export GH_USER=GITHUB_USER_ID
-    ```
-
-1. Save these to your .bashrc in case of cloud shell timeout
-
-    ```bash
-    echo "export GH_USER=${GH_USER}" >> ~/.bashrc
-    echo "export GH_PAT=${GH_PAT}" >> ~/.bashrc
+    export GH_USER=replaceme
     ```
 
 1. Next, we'll create a new working directory to clone our forked GitHub repositories. To do so, run the following commands:
@@ -323,20 +316,11 @@ At this point, we can successfully build and deploy new code by manually running
 
       To learn more about EventListeners, [review the Tekton documentation](https://tekton.dev/docs/triggers/eventlisteners/){:target="_blank"}.
 
-1. Edit `~/gitops/rosa-workshop-app/pipeline/tasks/event-listener/2-web-trigger-template.yaml` with your favorite text editor (vim!) and replace the `<>` sections with the values of from the following command:
+1. Next, let's update our web trigger template with your GitHub username. To do this, let's run the following command:
 
     ```bash
-    echo "GITHUB_USER: ${GH_USER}"
-    ```
-
-    ```{.text .no-copy}
-      - name: dependency-git-url
-        value: https://github.com/GITHUB_USER_ID/common-java-dependencies
-      - name: application-git-url
-        value: https://github.com/GITHUB_USER_ID/rosa-workshop-app
-    [...]
-      - name: image-name
-        value: image-registry.openshift-image-registry.svc:5000/microsweeper-ex/minesweeper
+    sed -i "s/GITHUB_USER_ID/${GH_USER}/g" \
+    ~/gitops/rosa-workshop-app/pipeline/tasks/event-listener/2-web-trigger-template.yaml
     ```
 
 1. Now that you have reviewed all the files, let's apply them to our cluster.
