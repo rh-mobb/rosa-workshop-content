@@ -20,6 +20,7 @@ nav:
     - Managing Worker Nodes: 200-ops/scaling-nodes.md
     - Cluster Autoscaling: 200-ops/autoscaling.md
     - Labeling Nodes: 200-ops/labels.md
+    - Logging to Cloud Watch: 200-ops/o11y/cloudwatch.md
   - Deploy and Expose an App:
     - Deploy the App: 300-app/deploy.md
     - Using OpenShift GitOps: 300-app/gitops.md
