@@ -6,7 +6,7 @@
 1. **Navigate** to project to Networking → Routes.
 
 1. **Click** on the Routes tab, **select** the Service Mesh control plane project, for example `istio-system`, from the Namespace menu.
-![Project Network Route](../assets/images/click-network-under-project-view-kiali-route.PNG)
+![Project Network Route](../assets/images/click-network-under-project-view-kiali-route.png)
 
 1. The Location column displays the linked address for each route.
 
@@ -14,26 +14,26 @@
 
 1. **Click Login With OpenShift**. The Kiali Overview screen presents tiles for each project namespace.
 
-    ![Kiali Login](../assets/images/kiali-login-with-cluster-credentials.PNG)
+    ![Kiali Login](../assets/images/kiali-login-with-cluster-credentials.png)
 
-    ![URL](../assets/images/product-page.PNG)
+    ![URL](../assets/images/product-page.png)
 
 1. Kiali Console.
-![Kiali Console](../assets/images/verify-overiview-bookinfoapp.PNG)
+![Kiali Console](../assets/images/verify-overiview-bookinfoapp.png)
 
 1. In Kiali, **click Graph.**
 
 1. **Select** bookinfo from the Namespace list, and App graph from the Graph Type list.
-![Kiali Console](../assets/images/select-bookinfo-from-kiali-dropdown-graph-tab.PNG)
+![Kiali Console](../assets/images/select-bookinfo-from-kiali-dropdown-graph-tab.png)
 
 1. **Click** Display idle nodes.
-![Kiali Console](../assets/images/kiali-click-display-idlenodes-graph-tab.PNG)
+![Kiali Console](../assets/images/kiali-click-display-idlenodes-graph-tab.png)
 
 1. **View** Graph and change display settings to add or remove information from the graph.
-![Kiali Console](../assets/images/graph-example.PNG)
+![Kiali Console](../assets/images/graph-example.png)
 
 1. **Click Workload tab**
 
 1. **Select Details Workload**
-![Kiali Console](../assets/images/example-details-workload.PNG)
+![Kiali Console](../assets/images/example-details-workload.png)
 

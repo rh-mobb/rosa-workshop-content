@@ -16,7 +16,7 @@ Red Hat OpenShift Service Mesh requires the following four Operators:
 ### Operator installation Procedure
 
 1. In the OpenShift Container Platform web console, click **Operators → OperatorHub.**
-![operator hub](../assets/images/operatorhub.PNG)
+![operator hub](../assets/images/operatorhub.png)
 
 1. Type the name of the Operator into the filter box and select the Red Hat version of the Operator. Community versions of the Operators are not supported.
 
@@ -25,7 +25,7 @@ Red Hat OpenShift Service Mesh requires the following four Operators:
 1. On the **Install Operator** page for each Operator, accept the default settings.
 
 1. Click **Install**. Wait until the Operator has installed before repeating the steps for the next Operator in the list.
-![Operator Install](../assets/images/operatorhub-click-install.PNG)
+![Operator Install](../assets/images/operatorhub-click-install.png)
 
   * The OpenShift Elasticsearch Operator is installed in the openshift-operators-redhat namespace and is available for all namespaces in the cluster.
 
@@ -34,4 +34,4 @@ Red Hat OpenShift Service Mesh requires the following four Operators:
   * The Kiali and Red Hat OpenShift Service Mesh Operators are installed in the openshift-operators namespace and are available for all namespaces in the cluster.
 
 1. After all you have installed all four Operators, click **Operators → Installed Operators** to verify that your Operators installed.
-![Installed Operators](../assets/images/show-installed-operators.PNG)
+![Installed Operators](../assets/images/show-installed-operators.png)
