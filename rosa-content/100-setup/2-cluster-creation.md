@@ -1,6 +1,6 @@
 # Create an ROSA Cluster
 
-Due to the consolidated nature of this workshop, you will first deploy a cluster yourself, before switching to a pre-created workshop cluster to finish the remainder of the content. This cluster will be dedicated to you. 
+During this workshop, you will be working on a cluster that you will create yourself in this step. This cluster will be dedicated to you. 
 
 The first step we need to do is assign an environment variable to this user ID. All the AWS resources that you will be creating will be tagged with your user ID to ensure that only you can modify it.
 
@@ -63,12 +63,12 @@ rosa create user-role --mode auto --yes
     ```bash
     rosa create cluster \
     --sts \
-    --cluster-name ${WS_USER/_mobbws/-ex} \
+    --cluster-name ${WS_USER/_/-} \
     --role-arn arn:aws:iam::395050934327:role/ManagedOpenShift-Installer-Role \
     --support-role-arn arn:aws:iam::395050934327:role/ManagedOpenShift-Support-Role \
     --controlplane-iam-role arn:aws:iam::395050934327:role/ManagedOpenShift-ControlPlane-Role \
     --worker-iam-role arn:aws:iam::395050934327:role/ManagedOpenShift-Worker-Role \
-    --operator-roles-prefix ${WS_USER/_mobbws/-ex}-${WS_UNIQUE} \
+    --operator-roles-prefix ${WS_USER/_/-}-${WS_UNIQUE} \
     --tags created-by:${WS_USER} \
     --multi-az \
     --region ${AWS_DEFAULT_REGION} \
@@ -78,44 +78,19 @@ rosa create user-role --mode auto --yes
     --machine-cidr 10.0.0.0/16 \
     --service-cidr 172.30.0.0/16 \
     --pod-cidr 10.128.0.0/14 \
-    --host-prefix 23
+    --host-prefix 23 \
+    --mode auto \
+    --yes
     ```
 
     !!! note
 
         In this case, we've already given you a command to run to ensure you get a cluster with exactly the settings necessary for the workshop. The table at the bottom of this page explains what each of these options do, but you can also provide all of these settings by running `rosa create cluster` and following the interactive prompts!
 
-1. Create the necessary operator roles for the cluster to deploy. 
-
-    ```bash
-    rosa create operator-roles --cluster ${WS_USER/_mobbws/-ex} --mode auto --yes
-    ```
-
-    Your output should look similar to:
-
-    ```
-    I: Creating roles using 'arn:aws:iam::395050934327:user/user1_mobbws'
-    I: Created role 'user1-mobbws-d8e7-openshift-ingress-operator-cloud-credentials' with ARN 'arn:aws:iam::395050934327:role/user1-d8e7-openshift-ingress-operator-cloud-credentials'
-    [...]
-    ```
-
-1. Create the OIDC provider necessary to allow the cluster to use the STS roles we've created. 
-
-    ```bash
-    rosa create oidc-provider --cluster ${WS_USER/_mobbws/-ex} --mode auto --yes
-    ```
-
-    Your output should look similar to:
-
-    ```
-    I: Creating OIDC provider using 'arn:aws:iam::395050934327:user/user1_mobbws'
-    I: Created OIDC provider with ARN 'arn:aws:iam::395050934327:oidc-provider/rh-oidc.s3.us-east-1.amazonaws.com/21edffbu0mg2rfimbt378l3dmob3mrjb'
-    ```
-
 1. (Optional) Watch the cluster as it runs through the installation process. 
 
     ```bash
-    rosa logs install -c ${WS_USER/_mobbws/-ex} --watch
+    rosa logs install -c ${WS_USER/_/-} --watch
     ```
 
     You will see a significant amount of output, eventually ending with something similar to:
@@ -138,3 +113,4 @@ rosa create user-role --mode auto --yes
 | `--replicas` | The number of worker node instances to deploy during cluster install. |
 | `--compute-machine-type` | The AWS instance type to use for worker nodes. |
 | `--machine-cidr`, `--service-cidr`, `--pod-cidr`, `--host-prefix` | The various network ranges to use for the cluster. |
+| `--mode`, `--yes` | Setting this to `mode=auto` and using `--yes` automatically create the necessary operator STS roles, along with the cluster's OIDC STS provider. |
