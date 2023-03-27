@@ -1,22 +1,14 @@
-# Introduction
+# Configure Log Forwarding to AWS CloudWatch
 
-OpenShift stores logs and metrics inside the cluster by default, however it also provides tooling to forward both to various locations. Here we will configure your ROSA cluster to ship logs to AWS CloudWatch.
+Red Hat OpenShift Service on AWS (ROSA) clusters store log data inside the cluster by default. You also have the ability to use the provided tooling to forward your cluster logs to various locations, including [AWS CloudWatch](https://aws.amazon.com/cloudwatch/){:target="_blank"}. 
 
+In this section of the workshop, we'll configure ROSA to forward logs to AWS CloudWatch.
 
-## Environment Setup
+## Prepare AWS CloudWatch
 
-1. Create a working directory
-
-    ```bash
-    mkdir -p ~/workshop/o11y/cloudwatch
-    cd ~/workshop/o11y/cloudwatch
-    ```
-
-1. Set some environment variables to use through this chapter
+1. First, let's set some helper variables that we'll need throughout this section of the workshop. To do so, run the following command:
 
     ```bash
-    export CLUSTER_NAME="${WS_USER/_/-}"
-    export REGION="${AWS_DEFAULT_REGION}"
     export OIDC_ENDPOINT=$(oc get authentication.config.openshift.io \
       cluster -o json | jq -r .spec.serviceAccountIssuer | \
       sed  's|^https://||')
@@ -25,10 +17,10 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
       --output text)
     ```
 
-1. Create an IAM Role trust policy for the cluster
+1. Next, let's create a trust policy document which will define what service account can assume our role. To create the trust policy document, run the following command:
 
     ```bash
-    cat <<EOF > ./trust-policy.json
+    cat <<EOF > ./cloudwatch-trust-policy.json
     {
       "Version": "2012-10-17",
       "Statement": [{
@@ -45,23 +37,29 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
       }]
     }
     EOF
+    ```
 
-    ROLE_ARN=$(aws iam create-role --role-name "${CLUSTER_NAME}-RosaCloudWatch" \
-      --assume-role-policy-document file://./trust-policy.json \
+1. Next, let's take the trust policy document and use it to create a role. To do so, run the following command:
+
+    ```bash
+    ROLE_ARN=$(aws iam create-role --role-name "${WS_USER/_/-}-RosaCloudWatch" \
+      --assume-role-policy-document file://cloudwatch-trust-policy.json \
       --tags "Key=rosa-workshop,Value=true" \
       --query Role.Arn --output text)
     echo ${ROLE_ARN}
     ```
 
-1. Attach the pre-created `RosaCloudWatch` IAM Policy to the new Role
+1. Now, let's attach the pre-created `RosaCloudWatch` IAM policy to the newly created IAM role. 
 
     ```bash
     aws iam attach-role-policy \
-      --role-name "${CLUSTER_NAME}-RosaCloudWatch" \
+      --role-name "${WS_USER/_/-}-RosaCloudWatch" \
       --policy-arn "${POLICY_ARN}"
     ```
 
-1. Deploy the Cluster Logging Operator
+## Configure Cluster Logging
+
+1. Now, we need to deploy the OpenShift Cluster Logging Operator. To do so, run the following command:
 
     ```bash
     cat << EOF | oc apply -f -
@@ -81,20 +79,20 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
     EOF
     ```
 
-1. Wait for the Cluster Logging Operator to be ready
+1. Now, we will wait for the OpenShift Cluster Logging Operator to install. To do so, we can run the following command to watch the status of the installation:
 
     ```bash
     oc -n openshift-logging rollout status deployment \
       cluster-logging-operator
     ```
 
-    After a minute or so you should see
+    After a minute or two, your output should look something like this:
 
     ```{.text .no-copy}
     deployment "cluster-logging-operator" successfully rolled out
     ```
 
-1. Create a secret containing the Role ARN for the Cluster Logging resource to use
+1. Next, we need to create a secret containing the ARN of the IAM role that we previously created above. To do so, run the following command:
 
     ```bash
     cat << EOF | oc apply -f -
@@ -108,7 +106,7 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
     EOF
     ```
 
-1. Create a Cluster Log Fowarding Resource
+1. Next, let's configure the OpenShift Cluster Logging Operator by creating a Cluster Log Forwarding custom resource that will forward logs to AWS CloudWatch. To do so, run the following command:
 
     ```bash
     cat << EOF | oc apply -f -
@@ -123,8 +121,8 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
           type: cloudwatch
           cloudwatch:
             groupBy: namespaceName
-            groupPrefix: rosa-${CLUSTER_NAME}
-            region: ${REGION}
+            groupPrefix: rosa-${WS_USER/_/-}
+            region: ${AWS_DEFAULT_REGION}
           secret:
             name: cloudwatch-credentials
       pipelines:
@@ -138,7 +136,7 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
     EOF
     ```
 
-1. Create a Cluster Logging Resource
+1. Next, let's create a Cluster Logging custom resource which will enable the OpenShift Cluster Logging Operator to start collecting logs. 
 
     ```bash
     cat << EOF | oc apply -f -
@@ -157,11 +155,11 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
     EOF
     ```
 
-1. Wait a few minutes then check Cloud Watch for log groups
+1. After a few minutes, you should begin to see log groups inside of AWS CloudWatch. To do so, run the following command:
 
     ```bash
     aws logs describe-log-groups \
-      --log-group-name-prefix rosa-${CLUSTER_NAME}
+      --log-group-name-prefix rosa-${WS_USER/_/-}
     ```
 
     You should see two log groups (`audit` and `infrastructure`).
@@ -189,8 +187,4 @@ OpenShift stores logs and metrics inside the cluster by default, however it also
     }
     ```
 
-1. Change back to your home directory
-
-    ```bash
-    cd ~
-    ```
+Congratulations! You've successfully forwarded your cluster's logs to the AWS CloudWatch service.
