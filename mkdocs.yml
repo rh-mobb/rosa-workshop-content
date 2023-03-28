@@ -28,7 +28,7 @@ nav:
     - Automate Deploying the App with Tekton: 300-app/cicd.md
   - Make an App Resilient: 300-app/resilience.md
   - Service Mesh:
-    - Service Mesh: 400-service-mesh/introduction.md
+    - Introduction to OpenShift Service Mesh: 400-service-mesh/introduction.md
     - Deploy Service Mesh Operator: 400-service-mesh/install.md
     - Deploy Control Plane: 400-service-mesh/deploy-control-plane.md
     - Deploy Workloads: 400-service-mesh/deploy-workload.md
