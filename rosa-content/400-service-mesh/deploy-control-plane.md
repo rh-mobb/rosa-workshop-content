@@ -1,20 +1,17 @@
-# [Red Hat OpenShift Service Mesh](https://docs.openshift.com/container-platform/4.11/service_mesh/v1x/ossm-architecture.html)
-
-Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a transparent layer on existing distributed applications without requiring any changes to the service code. You add Red Hat OpenShift Service Mesh support to services by deploying a special sidecar proxy to relevant services in the mesh that intercepts all network communication between microservices. You configure and manage the Service Mesh using the Service Mesh control plane features.
+Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a transparent layer on existing distributed applications without requiring any changes to the service code. You add Red Hat OpenShift Service Mesh support to services by deploying a special sidecar proxy to relevant services in the mesh that intercepts all network communication between microservices. You configure and manage the Service Mesh using the Service Mesh control plane features. To learn more about the OpenShift Service Mesh, review the [OpenShift documentation](https://docs.openshift.com/rosa/service_mesh/v2x/ossm-about.html){:target="_blank"}.
 
 ## Deploy Control Plane
 
-
-1. Create a project named istio-system.
+1. First, let's create a project (namespace) for us to deploy the service mesh control plane into. To do so, run the following command:
 
      ```bash
      oc new-project istio-system
      ```
 
+1. Next, let's deploy the service mesh control plane. To do so, run the following command:
 
-1. Look over this example `ServiceMeshControlPlane` resource
-
-    ```{.yaml .no-copy}
+    ```yaml
+    cat << EOF | oc apply -f -
     apiVersion: maistra.io/v2
     kind: ServiceMeshControlPlane
     metadata:
@@ -24,7 +21,7 @@ Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a tr
       version: v2.2
       security:
         identity:
-          type: ThirdParty  #required setting for ROSA
+          type: ThirdParty
       tracing:
         type: Jaeger
         sampling: 10000
@@ -39,17 +36,17 @@ Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a tr
           name: kiali
         grafana:
           enabled: true
+    EOF
     ```
 
-1. Run the following command to deploy the Service Mesh control plane.
+    !!! warning
+            If you receive an error that is similar to the below error, ensure your operators have finished installing and try again:
 
-    ```bash
-    oc create -n istio-system -f \
-      https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/istio_installation.yaml
-    ```
+            ```{.text .no-copy}
+            Internal error occurred: failed calling webhook "smcp.mutation.maistra.io": failed to call webhook: Post "https://maistra-admission-controller.openshift-operators.svc:443/mutate-smcp?timeout=10s": dial tcp 10.128.2.63:11999: connect: connection refused
+            ```
 
-
-1. To watch the progress of the pod deployment, run the following command:
+1. Next, let's watch the progress of the service mesh control plane rollout. To do so, run run the following command:
 
     ```bash
     oc get pods -n istio-system -w
@@ -68,16 +65,18 @@ Based on the open source Istio project, Red Hat OpenShift Service Mesh adds a tr
     wasm-cacher-basic-8c986c75-vj2cd       1/1     Running   0          65m
     ```
 
+    Once all the pods are running, hit Ctrl-C and proceed to the next step.
 
-1. Run the following command to verify the Service Mesh control plane installation, where istio-system is the namespace where you installed the Service Mesh control plane.
+1. Next, let's verify that the service mesh control plane is successfully installed. To do so, run the following command:
 
     ```bash
-    oc get smcp -n istio-system
+    oc -n istio-system get smcp
     ```
-
-    The installation has finished successfully when the STATUS column is ComponentsReady
+    The installation has finished successfully when the STATUS column says `ComponentsReady`.
 
     ```{.text .no-copy}
     NAME    READY   STATUS            PROFILES      VERSION   AGE
     basic   10/10   ComponentsReady   ["default"]   2.1.1     66m
     ```
+
+    Congratulations! You've successfully deployed the OpenShift Service Mesh control plane to your cluster.

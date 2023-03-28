@@ -3,7 +3,7 @@
 Red Hat OpenShift Service Mesh requires the following four Operators:
 
 !!! warning
-    Before moving on, ensure you have deployed all four of these Operators in order.
+    Before moving on, ensure you have deployed all four of these operators.
 
 1. **OpenShift Elasticsearch** - Provides database storage for tracing and logging with the distributed tracing platform. It is based on the open core Elasticsearch project.
 

@@ -22,9 +22,7 @@ I: It may take several minutes for this access to become active.
 
 Ensure that you capture that username and password before moving on to next steps and store it somewhere safe.
 
-!!! warning
-
-    It may take a few minutes for your newly added cluster-admin account to show you up.
+!!! warning "**It may take a few minutes for your newly added cluster-admin account to show up.**"
 
 ### Login to the OpenShift CLI
 
@@ -49,11 +47,16 @@ Welcome! See 'oc help' to get started.
 ```
 
 !!! warning
-        If you receive an error that looks like the below output, wait a few more minutes and try again:
+        If you receive an error that is similar to the below errors, wait a few more minutes and try again:
 
         ```{.text .no-copy}
         Login failed (401 Unauthorized)
         Verify you have provided the correct credentials.
+        ```
+        
+        ```{.text .no-copy}
+        The server uses a certificate signed by an unknown authority.
+        You can bypass the certificate check, but any data you send to the server could be intercepted by others.
         ```
 
 ### Login to the OpenShift Web Console

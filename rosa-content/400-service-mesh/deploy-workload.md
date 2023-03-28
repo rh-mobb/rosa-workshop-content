@@ -1,47 +1,53 @@
-## Deploying Workloads
+Now, let's proceed with deploying a workload to test our service mesh. 
 
-1. Create project.
+### Configure our project for the service mesh
+
+1. First, let's create a project (namespace) for us to deploy our workload into. To do so, run the following command:
 
     ```bash
     oc new-project bookinfo
+    ```
+
+1. Next, let's label that project (namespace) to enable the service mesh injection for all applications in the project.
+
+    ```bash
     oc label namespace bookinfo istio-injection=enabled
     ```
 
-1. Run the following command to create the Service Mesh Member Roll
-
-    The `ServiceMeshMemberRoll` lists the projects that belong to the Service Mesh control plane. Only projects listed in the `ServiceMeshMemberRoll` are affected by the control plane. A project does not belong to a service mesh until you add it to the member roll for a particular control plane deployment.
-
-    You must create a `ServiceMeshMemberRoll` resource named `default` in the same project as the `ServiceMeshControlPlane`, for example `istio-system`.
+1. Even though we've enabled service mesh injection in the project, we also need to add our project (namespace) to the `ServiceMeshMemberRoll`, which limits the scope of the service mesh control plane to only projects in the member roll. To add the project to the `ServiceMeshMemberRoll`, run the following command:
 
     ```bash
-    cat << EOF | oc create -n istio-system -f -
+    cat << EOF | oc apply -f -
     apiVersion: maistra.io/v1
     kind: ServiceMeshMemberRoll
     metadata:
       name: default
+      namespace: istio-system
     spec:
       members:
       - bookinfo
     EOF
     ```
 
-1. Run the following command to verify the ServiceMeshMemberRoll was created successfully.
+1. Next, let's verify the `ServiceMeshMemberRoll` was created successfully. To do so, run the following command:
 
     ```bash
-    oc get smmr -n istio-system -o wide
+    oc -n istio-system get smmr -o wide
     ```
 
-    The installation has finished successfully when the STATUS column is Configured.
+    The service mesh member roll was successfully configured when the STATUS column is `Configured` and your project shows up in the MEMBERS column.
 
     ```{.text .no-copy}
     NAME      READY   STATUS       AGE   MEMBERS
     default   1/1     Configured   70s   ["bookinfo"]
     ```
 
-1. From the CLI, deploy the Bookinfo application in the `bookinfo` project by applying the bookinfo.yaml file:
+### Deploy our test workload
+
+1. Now that we've configured the service mesh for our project, let's deploy our bookinfo workload into our project. To do so, run the following command to create the necessary resources:
 
     ```bash
-    oc apply -n bookinfo -f \
+    oc -n bookinfo apply -f \
       https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/bookinfo.yaml
     ```
 
@@ -64,10 +70,12 @@
     deployment.apps/productpage-v1 created
     ```
 
-1. Create the ingress gateway by applying the bookinfo-gateway.yaml file:
+    Interested in seeing the configuration you're deploying? Check it out on GitHub [here](https://github.com/rh-mobb/rosa-workshop-content/blob/main/rosa-content/assets/scripts/bookinfo.yaml){:target="_blank"}.
+
+1. Now, let's create the service mesh ingress gateway. To do so, run the following command:
 
     ```bash
-    oc apply -n bookinfo -f \
+    oc -n bookinfo apply -f \
       https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/bookinfo-gateway.yaml
     ```
 
@@ -78,40 +86,31 @@
     virtualservice.networking.istio.io/bookinfo created
     ```
 
-1. Set the value for the GATEWAY_URL parameter:
+1. Next, let's add some destination rules. Destination rules define policies that apply to traffic intended for a service after routing has occurred. To create the rules, run the following command:
 
     ```bash
-    export GATEWAY_URL=$(oc -n istio-system get route istio-ingressgateway -o jsonpath='{.spec.host}')
-    echo "export GATEWAY_URL=${GATEWAY_URL}" >> ~/.workshoprc
+    oc -n bookinfo apply -f \
+      https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/destination-rule-all.yaml
     ```
 
-### Adding default destination rules
+    You should see output similar to the following:
 
-1. To add destination rules, run one of the following commands:
-
-```bash
-oc apply -n bookinfo -f \
-  https://raw.githubusercontent.com/rh-mobb/rosa-workshop-content/main/rosa-content/assets/scripts/destination-rule-all.yaml
-```
-
-You should see output similar to the following:
-
-```{.text .no-copy}
-destinationrule.networking.istio.io/productpage created
-destinationrule.networking.istio.io/reviews created
-destinationrule.networking.istio.io/ratings created
-destinationrule.networking.istio.io/details created
-```
+    ```{.text .no-copy}
+    destinationrule.networking.istio.io/productpage created
+    destinationrule.networking.istio.io/reviews created
+    destinationrule.networking.istio.io/ratings created
+    destinationrule.networking.istio.io/details created
+    ```
 
 ### Verifying the Bookinfo installation
 
-1. Verify that all pods are ready with this command:
+1. First, let's verify that all pods are running and ready by running the following command:
 
     ```bash
-    oc get pods -n bookinfo
+    oc -n bookinfo get pods
     ```
 
-    All pods should have a status of Running. You should see output similar to the following:
+    All pods should have a status of `Running`. You should see output similar to the following:
 
     ```{.text .no-copy}
     NAME                              READY   STATUS    RESTARTS   AGE
@@ -123,12 +122,10 @@ destinationrule.networking.istio.io/details created
     reviews-v3-6dfd49b55b-vcwpf       2/2     Running   0          12m
     ```
 
-1. Run the following command to retrieve the URL for the product page:
+1. Next, let's get the URL for the product page. To do so, run the following command:
 
     ```bash
-    echo "http://$GATEWAY_URL/productpage"
+    echo "http://$(oc -n istio-system get route istio-ingressgateway -o jsonpath='{.spec.host}')/productpage"
     ```
 
-1. Copy and paste the output in a web browser to verify the Bookinfo product page is deployed.
-
-    You should see a book review of "The Comedy of Errors".
+1. Copy and paste the URL provided in the previous step into your web browser and verify the Bookinfo product page is successfully deployed. You should see a book review of "The Comedy of Errors".

@@ -19,8 +19,17 @@
     metadata:
       name: argocd
     spec:
-      dex:
-        openShiftOAuth: true
+      sso:
+        dex:
+          openShiftOAuth: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+        provider: dex
       rbac:
         defaultPolicy: "role:readonly"
         policy: "g, system:authenticated, role:admin"
@@ -39,7 +48,7 @@
 1. Wait for ArgoCD to be ready
 
     ```bash
-    kubectl rollout status deploy/argocd-server
+    oc rollout status deploy/argocd-server
     ```
 
 1. Apply the gitops configuration

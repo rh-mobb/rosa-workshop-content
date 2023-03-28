@@ -32,8 +32,7 @@ nav:
     - Deploy Service Mesh Operator: 400-service-mesh/install.md
     - Deploy Control Plane: 400-service-mesh/deploy-control-plane.md
     - Deploy Workloads: 400-service-mesh/deploy-workload.md
-    - Deploy Weighted Load Balancing: 400-service-mesh/weighted-routing.md
-    - Access Kiali Dashboard: 400-service-mesh/kiali.md
+    - Configure and Observe Traffic: 400-service-mesh/configure-observe-traffic.md
 
 # Theme Configuration
 theme:

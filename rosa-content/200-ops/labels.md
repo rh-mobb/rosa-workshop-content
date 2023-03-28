@@ -21,12 +21,12 @@ While you can directly add a label to a node, it is not recommended because node
     Your output will look something like this:
 
     ```{.text .no-copy}
-    node/ip-10-0-130-107.{{ aws_region }}.compute.internal
-    node/ip-10-0-146-138.{{ aws_region }}.compute.internal
-    node/ip-10-0-161-54.{{ aws_region }}.compute.internal
-    node/ip-10-0-190-160.{{ aws_region }}.compute.internal
-    node/ip-10-0-218-118.{{ aws_region }}.compute.internal
-    node/ip-10-0-221-22.{{ aws_region }}.compute.internal
+    node/ip-10-0-130-107.ec2.compute.internal
+    node/ip-10-0-146-138.ec2.compute.internal
+    node/ip-10-0-161-54.ec2.compute.internal
+    node/ip-10-0-190-160.ec2.compute.internal
+    node/ip-10-0-218-118.ec2.compute.internal
+    node/ip-10-0-221-22.ec2.compute.internal
     ```
 
     Pending that your output shows one or more node, this demonstrates that our machine pool and associated nodes are properly annotated!
@@ -44,7 +44,7 @@ Now that we've successfully labeled our nodes, let's deploy a workload to demons
 1. Next, let's deploy our application and associated resources that will target our labeled nodes. To do so, run the following command:
 
     ```yaml
-    cat << EOF | oc create -f -
+    cat << EOF | oc apply -f -
     kind: Deployment
     apiVersion: apps/v1
     metadata:
@@ -70,6 +70,11 @@ Now that we've successfully labeled our nodes, let's deploy a workload to demons
                   protocol: TCP
                 - containerPort: 8888
                   protocol: TCP
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
     EOF
     ```
 
@@ -83,7 +88,7 @@ Now that we've successfully labeled our nodes, let's deploy a workload to demons
     Your output will look something like this:
 
     ```{.text .no-copy}
-    user1-mobbws-cluster-zljxp-worker-eastus1-gkhgf
+    ip-10-0-176-255.ec2.internal
     ```
 
 1. Double check the name of the node to compare it to the output above to ensure the node selector worked to put the pod on the correct node
@@ -92,10 +97,10 @@ Now that we've successfully labeled our nodes, let's deploy a workload to demons
     oc get nodes --selector='tier=frontend' -o name
     ```
 
-    Your output will look something like this (look for the final string to match, in this example `gkhgf`)
+    Your output will look something like this:
 
     ```{.text .no-copy}
-    node/user1-mobbws-cluster-zljxp-worker-eastus1-gkhgf
+    ip-10-0-176-255.ec2.internal
     ```
 
 
@@ -120,7 +125,7 @@ Now that we've successfully labeled our nodes, let's deploy a workload to demons
     Then visit the URL presented in a new tab in your web browser (using HTTPS). For example, your output will look something similar to:
 
     ```{.text .no-copy}
-    nodeselector-app-nodeselector-ex.apps.ce7l3kf6.eastus.aroapp.io
+    nodeselector-app-nodeselector-ex.apps.user1-mobbws.2ep4.p1.openshiftapps.com
     ```
 
 1. In the above case, you'd visit `https://nodeselector-app-nodeselector-ex.apps.user1-mobbws.2ep4.p1.openshiftapps.com` in your browser.
