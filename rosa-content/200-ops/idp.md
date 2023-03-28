@@ -18,8 +18,8 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
     --user-pool-id ${WS_COGNITO_ID} \
     --client-name ${WS_USER/_/-} \
     --generate-secret \
-    --callback-urls ${IDP_CALLBACK} \
-    --supported-identity-providers https://oauth-openshift.apps.${CLUSTER_DOMAIN}/oauth2callback/Cognito \
+    --callback-urls "https://oauth-openshift.apps.${CLUSTER_DOMAIN}/oauth2callback/Cognito" \
+    --supported-identity-providers COGNITO \
     --allowed-o-auth-scopes "phone" "email" "openid" "profile" \
     --allowed-o-auth-flows code \
     --allowed-o-auth-flows-user-pool-client
