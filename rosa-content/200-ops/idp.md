@@ -7,8 +7,8 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
 1. First, we need to determine the OAuth callback URL, which we will use to tell Amazon Cognito where it should send authentication responses. To do so, run the following command:
 
     ```bash
-    domain=$(rosa describe cluster -c ${WS_USER/_/-} | grep "DNS" | grep -oE '\S+.openshiftapps.com')
-    echo "OAuth callback URL: https://oauth-openshift.apps.$domain/oauth2callback/Cognito"
+    CLUSTER_DOMAIN=$(rosa describe cluster -c ${WS_USER/_/-} | grep "DNS" | grep -oE '\S+.openshiftapps.com')
+    echo "OAuth callback URL: https://oauth-openshift.apps.${CLUSTER_DOMAIN}/oauth2callback/Cognito"
     ```
 
 1. Next, let's create an app client in Amazon Cognito. To do so, run the following command:
@@ -19,7 +19,7 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
     --client-name ${WS_USER/_/-} \
     --generate-secret \
     --callback-urls ${IDP_CALLBACK} \
-    --supported-identity-providers COGNITO \
+    --supported-identity-providers https://oauth-openshift.apps.${CLUSTER_DOMAIN}/oauth2callback/Cognito \
     --allowed-o-auth-scopes "phone" "email" "openid" "profile" \
     --allowed-o-auth-flows code \
     --allowed-o-auth-flows-user-pool-client
