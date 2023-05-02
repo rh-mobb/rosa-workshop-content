@@ -72,7 +72,7 @@ rosa create user-role --mode auto --yes
     --tags created-by:${WS_USER} \
     --multi-az \
     --region ${AWS_DEFAULT_REGION} \
-    --version 4.11.17 \
+    --version {{ rosa_version }} \
     --replicas 3 \
     --compute-machine-type m5.xlarge \
     --machine-cidr 10.0.0.0/16 \

@@ -57,6 +57,7 @@ plugins:
 
 extra:
   aws_region: us-east-1
+  rosa_version: 4.11.36
 
 # Extensions
 markdown_extensions:

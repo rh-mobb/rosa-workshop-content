@@ -26,7 +26,7 @@ In this section of the workshop, we'll configure ROSA to forward logs to AWS Clo
       "Statement": [{
         "Effect": "Allow",
         "Principal": {
-          "Federated": "arn:aws:iam::${WS_AWS_ACCOUNT_ID}:oidc-provider/${OIDC_ENDPOINT}"
+          "Federated": "arn:aws:iam::$(aws sts get-caller-identity --query "Account" --output text):oidc-provider/${OIDC_ENDPOINT}"
         },
         "Action": "sts:AssumeRoleWithWebIdentity",
         "Condition": {
