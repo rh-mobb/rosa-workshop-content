@@ -203,7 +203,7 @@ Explore around the deployment screen, check out the different tabs, look at the 
 Look at the pod the deployment created, and see that it is running.
 ![OpenShift Web Console - Deployment Pods](../assets/images/rosa-console-deployment-pods.png)
 
-The last thing we will look at is the route that was created for our application. In the quarkus properties file, we specified that the application should be exposed to the Internet.  When you create a Route, you have the option to specify a hostname. To start with, we will just use the default domain that comes with ROSA (`openshiftapps.com` in our case). In next section, we will expose the same application to a custom domain leveraging Azure Front Door.
+The last thing we will look at is the route that was created for our application. In the quarkus properties file, we specified that the application should be exposed to the Internet.  When you create a Route, you have the option to specify a hostname. In this workshop, we will just use the default domain that comes with ROSA (`openshiftapps.com` in our case).
 
 You can read more about routes [in the Red Hat documentation](https://docs.openshift.com/container-platform/latest/networking/routes/route-configuration.html)
 
