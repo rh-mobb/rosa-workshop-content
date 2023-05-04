@@ -67,7 +67,7 @@ Now let's test the cluster autoscaler and see it in action. To do so, we'll depl
 1. Next, let's deploy our job that will exhaust the cluster's resources and cause it to scale more worker nodes. To do so, run the following command:
 
     ```yaml
-    cat << EOF | oc apply -f -
+    cat << EOF | oc create -f -
     apiVersion: batch/v1
     kind: Job
     metadata:
