@@ -4,6 +4,12 @@ Red Hat OpenShift Service on AWS (ROSA) provides fully-managed cluster updates. 
 
 For more information on how ROSA's Upgrade Service works, please see the [Red Hat documentation](https://docs.openshift.com/rosa/upgrading/rosa-upgrading-sts.html){:target="_blank"}.
 
+The [ROSA Upgrade Path](https://access.redhat.com/labs/ocpupgradegraph/update_path_rosa) helps to find a valid upgrade path.
+
+![rosa_upgrade_path_graph](../assets/images/rosa_upgrade_graph.png){ align=center } 
+
+In this case before upgrading the cluster from 4.11.0 version to 4.12.15, cluster must be upgrade to intermidiate 4.11.39 version
+
 ## Upgrade using the OpenShift Cluster Manager
 
 !!! note
