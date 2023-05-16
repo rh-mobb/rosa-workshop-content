@@ -2,7 +2,7 @@
 
 As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we created a temporary cluster-admin user using the `rosa create admin` command. This uses htpasswd as a local identity provider to allow you to access the cluster. Most ROSA users will want to connect ROSA to a single-sign-on provider, such as Amazon Cognito. In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
 
-The following diagram illustrates the Amazon Cognito user pool [authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html#Using-SRP-password-verification-in-custom-authentication-flow).
+The following diagram illustrates the Amazon Cognito user pool [authentication flow](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html).
 
 ![idp_cognito_config](../assets/images/idp_cognito_config.png){ align=center }
 
