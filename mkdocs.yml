@@ -11,9 +11,10 @@ repo_url: https://github.com/rh-mobb/rosa-workshop-content
 # Nav Menu Definition
 nav:
   - Welcome: index.md
-  - Environment Setup: 100-setup/1-environment.md
-  - Create ROSA Cluster: 100-setup/2-cluster-creation.md
-  - Access Your Cluster: 100-setup/3-access-cluster.md
+  - Accessing the Workshop:
+    - Environment Setup: 100-setup/1-environment.md
+  #- Create ROSA Cluster: 100-setup/2-cluster-creation.md
+    - Access Your Cluster: 100-setup/3-access-cluster.md
   - Day Two ROSA Operations:
     - Configuring Cluster Authentication: 200-ops/idp.md
     - Managing Cluster Upgrades: 200-ops/upgrades.md
@@ -23,16 +24,16 @@ nav:
     - Logging to AWS CloudWatch: 200-ops/cloudwatch.md
   - Deploy and Expose an App:
     - Deploy the App: 300-app/deploy.md
-    - Using OpenShift GitOps: 300-app/gitops.md
-    - Restrict Network Access: 300-app/networkpolicy.md
-    - Automate Deploying the App with Tekton: 300-app/cicd.md
-  - Make an App Resilient: 300-app/resilience.md
-  - Service Mesh:
-    - Introduction to OpenShift Service Mesh: 400-service-mesh/introduction.md
-    - Deploy Service Mesh Operator: 400-service-mesh/install.md
-    - Deploy Control Plane: 400-service-mesh/deploy-control-plane.md
-    - Deploy Workloads: 400-service-mesh/deploy-workload.md
-    - Configure and Observe Traffic: 400-service-mesh/configure-observe-traffic.md
+    - Make the App Resilient: 300-app/resilience.md
+  #   - Using OpenShift GitOps: 300-app/gitops.md
+  #   - Restrict Network Access: 300-app/networkpolicy.md
+  #   - Automate Deploying the App with Tekton: 300-app/cicd.md
+  # - Service Mesh:
+  #   - Introduction to OpenShift Service Mesh: 400-service-mesh/introduction.md
+  #   - Deploy Service Mesh Operator: 400-service-mesh/install.md
+  #   - Deploy Control Plane: 400-service-mesh/deploy-control-plane.md
+  #   - Deploy Workloads: 400-service-mesh/deploy-workload.md
+  #   - Configure and Observe Traffic: 400-service-mesh/configure-observe-traffic.md
 
 # Theme Configuration
 theme:
