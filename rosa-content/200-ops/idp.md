@@ -18,7 +18,7 @@ The following diagram illustrates the ROSA cluster IDP authentication using Amaz
 1. Next, let's create an app client in Amazon Cognito. To do so, run the following command:
 
     ```bash
-    aws cognito-idp create-user-pool-client \
+    COGNITO_CONFIG=$(aws cognito-idp create-user-pool-client \
     --user-pool-id ${WS_COGNITO_ID} \
     --client-name ${WS_USER/_/-} \
     --generate-secret \
@@ -26,7 +26,8 @@ The following diagram illustrates the ROSA cluster IDP authentication using Amaz
     --supported-identity-providers COGNITO \
     --allowed-o-auth-scopes "phone" "email" "openid" "profile" \
     --allowed-o-auth-flows code \
-    --allowed-o-auth-flows-user-pool-client
+    --allowed-o-auth-flows-user-pool-client)
+    echo ${COGNITO_CONFIG} | jq
     ```
 
     The output of the command will look something like this:
@@ -40,20 +41,40 @@ The following diagram illustrates the ROSA cluster IDP authentication using Amaz
         ...
     ```
 
-    **Ensure that you capture the `ClientId` and `ClientSecret` before moving on to the next steps and store it somewhere safe.**
+1. Next, let's store the `ClientId` and `ClientSecret` as environment variables that we reference later. To do so, run the following command:
+
+    ```bash
+    echo "export COGNITO_CLIENT_ID=$(echo ${COGNITO_CONFIG} | jq -r .UserPoolClient.ClientId)" >> ~/.bashrc
+    echo "export COGNITO_CLIENT_SECRET=$(echo ${COGNITO_CONFIG} | jq -r .UserPoolClient.ClientSecret)" >> ~/.bashrc
+    source ~/.bashrc
+    ```
+
+1. Now, let's verify that those values were stored properly by running the following commands:
+
+    ```bash
+    echo "Client ID: ${COGNITO_CLIENT_ID}"
+    echo "Client Secret: ${COGNITO_CLIENT_SECRET}"
+    ```
+
+    The output of the command will look something like this:
+
+    ```{.text .no-copy}
+    Client ID: abcdefghijklmnopqrstuvwxyz
+    Client Secret: redacted
+    ```
+
+    If you don't see your Client ID or Client Secret, ensure you ran through the steps above before you proceed to the next steps.
 
 ## Configure ROSA
 
-1. Finally, we need to configure OpenShift to use Amazon Cognito as its identity provider. While Red Hat OpenShift Service on AWS (ROSA) offers the ability to configure identity providers via the OpenShift Cluster Manager (OCM),we're going to configure the cluster’s OAuth provider via the rosa CLI. To do so, run the following command, making sure to replace the variable specified:
+1. Finally, we need to configure OpenShift to use Amazon Cognito as its identity provider. While Red Hat OpenShift Service on AWS (ROSA) offers the ability to configure identity providers via the OpenShift Cluster Manager (OCM), we're going to configure the cluster’s OAuth provider via the `rosa` CLI. To do so, run the following command, making sure to replace the variable specified:
     ```bash
-    CLIENT_ID=replaceme # Replace this with the ClientId from the step above
-    CLIENT_SECRET=replaceme # Replace this with the ClientSecret from the step above
     rosa create idp \
     --cluster ${WS_USER/_/-} \
     --type openid \
     --name Cognito \
-    --client-id ${CLIENT_ID} \
-    --client-secret ${CLIENT_SECRET} \
+    --client-id ${COGNITO_CLIENT_ID} \
+    --client-secret ${COGNITO_CLIENT_ID} \
     --issuer-url https://cognito-idp.{{ aws_region }}.amazonaws.com/${WS_COGNITO_ID} \
     --email-claims email \
     --name-claims name \
