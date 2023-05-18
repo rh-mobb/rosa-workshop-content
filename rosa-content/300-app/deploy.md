@@ -248,6 +248,7 @@ Here you learned:
 * Create AWS DynamoDB table for application to use
 * Create IAM roles for Service Account
 * Deploy Microsweeper app that uses AWS DynamoDB as backend database
+* Access the Microsweeper app using OpenShift Routes 
 
 Next you will learn:
 
