@@ -1,6 +1,6 @@
 ## Introduction
 
-The cluster autoscaler adjusts the size of an ROSA cluster to meet the resource needs of the cluster. The cluster autoscaler increases the size of the cluster when there are pods that fail to schedule on any of the current worker nodes due to insufficient resources or when another node is necessary to meet deployment needs. The cluster autoscaler does not increase the cluster resources beyond the limits that you specify. To learn more about cluster autoscaling, visit the [Red Hat documentation for cluster autoscaling](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-nodes-about-autoscaling-nodes.html){:target="_blank"}.
+ROSA Cluster Autoscaler is a feature that helps automatically adjust the size of an ROSA cluster based on the current workload and resource demands. Cluster Autoscaler offers automatic and intelligent scaling of ROSA clusters, leading to efficient resource utilization, improved application performance, high availability, and simplified cluster management. By dynamically adjusting the cluster size based on workload demands, it helps organizations optimize their infrastructure costs while ensuring optimal application performance and scalability. The cluster autoscaler does not increase the cluster resources beyond the limits that you specify. To learn more about cluster autoscaling, visit the [Red Hat documentation for cluster autoscaling](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-nodes-about-autoscaling-nodes.html){:target="_blank"}.
 
 ## Enable Autoscaling on the Default MachinePool
 
@@ -114,7 +114,7 @@ Now let's test the cluster autoscaler and see it in action. To do so, we'll depl
     [...]
     ```
 
-    Notice that we see a lot of pods in a pending state.  This should trigger the cluster autoscaler to create more machines using the MachineAutoscaler we created.
+    Notice that we see a lot of pods in a pending state. Running `oc describe pod maxscale-2bdjf`, tells us that OpenShift-scheduler is not able to schedule this pod because all workers don't have enough resources. This should trigger the cluster autoscaler to create more machines using the MachineAutoscaler we created.
 
 
 1. Let's check to see if our MachineSet automatically scaled. To do so, run the following command:
