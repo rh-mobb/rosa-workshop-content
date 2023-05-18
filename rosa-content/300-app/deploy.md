@@ -1,16 +1,18 @@
 # Introduction
 
-It's time for us to put our cluster to work and deploy a workload. We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ROSA){:target="_blank"}, using [Quarkus](https://quarkus.io/){:target="_blank"} (a Kubernetes-native Java stack) and [Amazon DynamoDB](https://aws.amazon.com/dynamodb){:target="_blank"}. We'll then deploy the application to our ROSA cluster and connect to the database over AWS's secure network.
+It's time for us to put our cluster to work and deploy a workload! We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ROSA){:target="_blank"}, using [Quarkus](https://quarkus.io/){:target="_blank"} (a Kubernetes-native Java stack) and [Amazon DynamoDB](https://aws.amazon.com/dynamodb){:target="_blank"}. We'll then deploy the application to our ROSA cluster and connect to the database over AWS's secure network.
+
+This lab demonstrates how ROSA (an AWS native service) can easily and securely access and utilize other AWS native services using AWS Secure Token Service (STS). To achieve this, we will be using IAM, DynamoDB, and a service account within OpenShift. After configuring the latter, we will use both Quarkus, a Kubernetes-native Java framework optimized for containers, and Source-to-Image (S2I), a toolkit for building Docker images from source code, to deploy the microsweeper application.
 
 ## Create an Amazon DynamoDB instance
 
-1. First, let's create a namespace (also known as a project in OpenShift). To do so, run the following command:
+1. First, let's create a namespace (also known as a project in OpenShift). A project is a unit of organization within OpenShift that provides isolation for applications and resources. To do so, run the following command:
 
     ```bash
     oc new-project microsweeper-ex
     ```
 
-1. Create the Amazon DynamoDB table resource. To do so, run the following command:
+1. Create the Amazon DynamoDB table resource. The DynamoDB will be used to store information from our application and ROSA will utilize AWS Secure Token Service(STS) to access this native service. More information on STS and how it is utilized in ROSA will be provided in the next section. For now lets create the Amazon Dynamodb table, To do so, run the following command:
 
     ```bash
     aws dynamodb create-table \
@@ -55,7 +57,14 @@ It's time for us to put our cluster to work and deploy a workload. We're going t
 
 ## IAM Roles for Service Account (IRSA) Configuration
 
-Our application uses the AWS SDK to make connections to Amazon DynamoDB. While we can use static IAM credentials to do this, this is against AWS' recommended best practices. Instead AWS recommends the use of AWS' Secure Token Service (STS). Lucky for us, we've already deployed our ROSA cluster using AWS STS, so using IAM Roles for Service Accounts (IRSA), also referred to as pod identity, is easy! 
+Our application uses AWS Secure Token Service(STS) to establish connections with Amazon DynamoDB. Traditionally, one would use static IAM credentials for this purpose, but this approach goes against AWS' recommended best practices. Instead, AWS suggests utilizing their Secure Token Service (STS). Fortunately, our ROSA cluster has already been deployed using AWS STS, making it effortless to adopt IAM Roles for Service Accounts (IRSA), also known as pod identity.
+
+Service accounts play a crucial role in managing the permissions and access control of applications running within ROSA. They act as identities for pods and allow them to interact securely with various AWS services. 
+
+IAM roles, on the other hand, define a set of permissions that can be assumed by trusted entities within AWS. By associating an AWS IAM role with a service account, we enable the pods in our ROSA cluster to leverage the permissions defined within that role. This means that instead of relying on static IAM credentials, our application can obtain temporary security tokens from AWS STS by assuming the associated IAM role.
+
+This approach aligns with AWS' recommended best practices and provides several benefits. Firstly, it enhances security by reducing the risk associated with long-lived static credentials. Secondly, it simplifies the management of access controls by leveraging IAM roles, which can be centrally managed and easily updated. Finally, it enables seamless integration with AWS services, such as DynamoDB, by granting the necessary permissions to the service accounts associated with our pods.
+
 
 1. First, create a service account to use to assume an IAM role. To do so, run the following command:
 
@@ -177,7 +186,7 @@ How did those images get built you ask? Back on the OpenShift Web Console, click
 ![OpenShift Web Console - BuildConfigs](../assets/images/rosa-console-buildconfigs.png)
 ![OpenShift Web Console - microsweeper-appservice BuildConfig](../assets/images/rosa-console-microsweeper-appservice-buildconfig.png)
 
-When you ran the `quarkus build` command, this created the BuildConfig you can see here. In our quarkus settings, we set the deployment strategy to build the image using Docker. The Dockerfile file from the git repo that we cloned was used for this BuildConfig.
+When you ran the `quarkus build` command, this created the BuildConfig you can see here. In our quarkus settings, the application.properties we editied earlier, we set the deployment strategy to build the image using Docker. The Dockerfile file from the git repo that we cloned was used for this BuildConfig.
 
 !!! info "A build configuration describes a single build definition and a set of triggers for when a new build is created. Build configurations are defined by a BuildConfig, which is a REST object that can be used in a POST to the API server to create a new instance."
 
@@ -240,3 +249,16 @@ Address: 40.117.143.193
 Notice the IP address; can you guess where it comes from?
 
 It comes from the ROSA Load Balancer. In this workshop, we are using a public cluster which means the load balancer is exposed to the Internet. If this was a private cluster, you would have to have connectivity to the VPC ROSA is running on. This could be via a VPN connection, AWS DirectConnect, or something else.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* Create AWS DynamoDB table for application to use
+* Create IAM roles for Service Account
+* Deploy Microsweeper app that uses AWS DynamoDB as backend database
+* Access the Microsweeper app using OpenShift Routes 
+
+Next you will learn:
+
+* Make the App Resilient

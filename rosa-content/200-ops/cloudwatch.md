@@ -186,3 +186,15 @@ In this section of the workshop, we'll configure ROSA to forward logs to AWS Clo
     ```
 
 Congratulations! You've successfully forwarded your cluster's logs to the AWS CloudWatch service.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* Create trust policy and role to grant ROSA cluster access to AWS CloudWatch
+* Install `cluster-logging` operator in the ROSA cluster
+* Configure `ClusterLogForwarder` and `ClusterLogging` object to forward infrastructre, audit and application logs to AWS CloudWatch 
+
+Next you will learn:
+
+* Deploy and Expose an App

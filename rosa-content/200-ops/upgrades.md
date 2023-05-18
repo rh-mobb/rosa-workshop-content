@@ -50,3 +50,15 @@ In this scenario to upgrade your cluster from version 4.11.0 to 4.12.15, you mus
 - [Upgrading ROSA clusters with STS](https://docs.openshift.com/rosa/upgrading/rosa-upgrading-sts.html){:target="_blank"}
 - [Scheduling individual upgrades through the OpenShift Cluster Manager console](https://docs.openshift.com/rosa/upgrading/rosa-upgrading-sts.html#rosa-upgrade-ocm_rosa-upgrading-sts){:target="_blank"}
 - [About the OpenShift Update Service](https://docs.openshift.com/container-platform/{{ rosa_version }}/updating/understanding-openshift-updates.html#update-service-about_understanding-openshift-updates){:target="_blank"}
+
+## Summary and Next Steps
+
+Here you learned:
+
+* All upgrades are monitored and managed by Red Hat ROSA SRE Team
+* Use ROSA Upgrade Path utility to find valid upgrade path 
+* Schedule Red Hat OpenShift on AWS cluster upgrades 
+
+Next you will learn:
+
+* Managing Worker Nodes
