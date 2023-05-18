@@ -1,6 +1,9 @@
-# Configuring ROSA to use Amazon Cognito for authentication
+## Introduction
 
-As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we created a temporary cluster-admin user using the `rosa create admin` command. This uses htpasswd as a local identity provider to allow you to access the cluster. Most ROSA users will want to connect ROSA to a single-sign-on provider, such as Amazon Cognito. In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
+[AWS Cognito](https://aws.amazon.com/cognito/){ align=center } is a fully managed authentication, authorization, and user management service provided by Amazon Web Services (AWS). It simplifies the process of adding user sign-up, sign-in, and access control to your ROSA Cluster.
+Integrating ROSA cluster with AWS Cognito simplifies user authentication, provides secure access control, supports federated identity and SSO, and enables centralized user management and audit trails
+
+As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we created a temporary cluster-admin user using the `rosa create admin` command. This uses htpasswd as a local identity provider to allow you to access the cluster. In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
 
 The following diagram illustrates the ROSA authentication process for a cluster configured with Amazon Cognito. 
 
