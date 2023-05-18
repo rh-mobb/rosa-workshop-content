@@ -2,7 +2,7 @@
 
 When deploying your ROSA cluster, you can configure many aspects of your worker nodes, but what happens when you need to change your worker nodes after they've already been created? These activities include scaling the number of nodes, changing the instance type, adding labels or taints, just to name a few.
 
-Many of these changes are done using MachinePools. MachinePools ensure that a specified number of Machine replicas are running at any given time. Think of a MachinePool as a "template" for the kinds of Machines that make up the worker nodes of your cluster. If you'd like to learn more, see the [Red Hat documentation on worker node management](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-managing-worker-nodes.html){:target="_blank"}.
+Many of these changes are done using Machine Pools. Machine Pools ensure that a specified number of Machine replicas are running at any given time. Think of a Machine Pool as a "template" for the kinds of Machines that make up the worker nodes of your cluster. If you'd like to learn more, see the [Red Hat documentation on worker node management](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-managing-worker-nodes.html){:target="_blank"}.
 
 ![scale_machinepool](../assets/images/scale_machinepool.png){ align=center }
 
