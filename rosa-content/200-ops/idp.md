@@ -101,11 +101,7 @@ Congratulations! You've successfully configured your Red Hat OpenShift Service o
 
 Here you learned:
 
-* Configure Amazon Cognito 
-* Configure ROSA cluster to use Amazon Cognito for authentication
-* Grant ${WS_USER} `cluster-admin` privileges in ROSA cluster
-
-Next you will learn:
-
-* Manage Cluster upgrades
+* Configure Amazon Cognito to act as the ROSA identity provider
+* Configure your ROSA cluster to use Amazon Cognito for authentication
+* Grant your workshop user `cluster-admin` privileges in ROSA cluster
 

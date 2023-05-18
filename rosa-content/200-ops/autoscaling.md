@@ -173,9 +173,5 @@ Congratulations! You've successfully demonstrated cluster autoscaling.
 
 Here you learned:
 
-* Enable ClusterAutoscaler on default machinepool
-* Deploy an application on the cluster and watch ClusterAutoscaler scale cluster up and down
-
-Next you will learn:
-
-* Labeling Nodes
+* Enable autoscaling on the default Machine Pool for your cluster
+* Deploy an application on the cluster and watch the cluster autoscaler scale your cluster to support the increased workload

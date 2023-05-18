@@ -197,10 +197,6 @@ Congratulations! You've successfully forwarded your cluster's logs to the AWS Cl
 
 Here you learned:
 
-* Create trust policy and role to grant ROSA cluster access to AWS CloudWatch
-* Install `cluster-logging` operator in the ROSA cluster
-* Configure `ClusterLogForwarder` and `ClusterLogging` object to forward infrastructre, audit and application logs to AWS CloudWatch 
-
-Next you will learn:
-
-* Deploy and Expose an App
+* Create an AWS IAM trust policy and role to grant your cluster access to AWS CloudWatch
+* Install the OpenShift Cluster Logging Operator in your cluster
+* Configure `ClusterLogForwarder` and `ClusterLogging` objects to forward infrastructure, audit and application logs to AWS CloudWatch 
