@@ -240,3 +240,16 @@ Address: 40.117.143.193
 Notice the IP address; can you guess where it comes from?
 
 It comes from the ROSA Load Balancer. In this workshop, we are using a public cluster which means the load balancer is exposed to the Internet. If this was a private cluster, you would have to have connectivity to the VPC ROSA is running on. This could be via a VPN connection, AWS DirectConnect, or something else.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* Create AWS DynamoDB table for application to use
+* Create IAM roles for Service Account
+* Deploy Microsweeper app that uses AWS DynamoDB as backend database
+* Access the Microsweeper app using OpenShift Routes 
+
+Next you will learn:
+
+* Make the App Resilient

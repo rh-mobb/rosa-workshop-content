@@ -43,3 +43,15 @@ The [ROSA Upgrade Path](https://access.redhat.com/labs/ocpupgradegraph/update_pa
     ![OCM - Update Close](../assets/images/ocm-update-close.png){ align=center }
 
     Congratulations! You've successfully scheduled an upgrade of your cluster for tomorrow at this time. While the workshop environment will be deleted before then, you now have the experience to schedule upgrades in the future.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* All upgrades are monitored and managed by Red Hat ROSA SRE Team
+* Use ROSA Upgrade Path utility to find valid upgrade path 
+* Schedule Red Hat OpenShift on AWS cluster upgrades 
+
+Next you will learn:
+
+* Managing Worker Nodes

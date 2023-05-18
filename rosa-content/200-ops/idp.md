@@ -94,3 +94,16 @@ The following diagram illustrates the ROSA cluster IDP authentication using Amaz
     !!! warning "If you do not see a new **Cognito** login option, wait a few more minutes as this process can take a few minutes to deploy across the cluster and revisit the Console URL."
 
 Congratulations! You've successfully configured your Red Hat OpenShift Service on AWS (ROSA) cluster to authenticate with Amazon Cognito.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* Configure Amazon Cognito 
+* Configure ROSA cluster to use Amazon Cognito for authentication
+* Grant ${WS_USER} `cluster-admin` privileges in ROSA cluster
+
+Next you will learn:
+
+* Manage Cluster upgrades
+
