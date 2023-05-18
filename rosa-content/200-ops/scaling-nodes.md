@@ -148,3 +148,14 @@ Many of these changes are done using Machine Pools. Machine Pools ensure that a 
 
 Congratulations! You've successfully scaled your cluster up and back down to three nodes.
 
+## Summary and Next Steps
+
+Here you learned:
+
+* Creating new machinepool for your Red Hat OpenShift on AWS cluster
+* Scaling machinepool up to add more worker to the cluster
+* Scaling machinepool down to remove worker from the cluster 
+
+Next you will learn:
+
+* Cluster Autoscaling
