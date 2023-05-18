@@ -164,3 +164,14 @@ Now let's test the cluster autoscaler and see it in action. To do so, we'll depl
 
 
 Congratulations! You've successfully demonstrated cluster autoscaling.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* How to Enable ClusterAutoscaler on default machinepool
+* Deploy an application on the cluster and watch ClusterAutoscaler scale cluster up and down
+
+Next you will learn:
+
+* Labeling Nodes
