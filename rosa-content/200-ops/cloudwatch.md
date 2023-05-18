@@ -1,5 +1,3 @@
-# Configure Log Forwarding to AWS CloudWatch
-
 Red Hat OpenShift Service on AWS (ROSA) clusters store log data inside the cluster by default. You also have the ability to use the provided tooling to forward your cluster logs to various locations, including [AWS CloudWatch](https://aws.amazon.com/cloudwatch/){:target="_blank"}. 
 
 In this section of the workshop, we'll configure ROSA to forward logs to AWS CloudWatch.
