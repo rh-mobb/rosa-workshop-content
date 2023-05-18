@@ -1,4 +1,4 @@
-# Configure Log Forwarding to AWS CloudWatch
+## Introduction
 
 Red Hat OpenShift Service on AWS (ROSA) clusters store log data inside the cluster by default. It simplifies log management and analysis within a ROSA cluster, offering centralized log collection, powerful search capabilities, visualization tools, and integration with other monitoring systems like [AWS CloudWatch](https://aws.amazon.com/cloudwatch/). 
 

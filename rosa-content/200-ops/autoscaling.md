@@ -1,6 +1,10 @@
 ## Introduction
 
-ROSA Cluster Autoscaler is a feature that helps automatically adjust the size of an ROSA cluster based on the current workload and resource demands. Cluster Autoscaler offers automatic and intelligent scaling of ROSA clusters, leading to efficient resource utilization, improved application performance, high availability, and simplified cluster management. By dynamically adjusting the cluster size based on workload demands, it helps organizations optimize their infrastructure costs while ensuring optimal application performance and scalability. The cluster autoscaler does not increase the cluster resources beyond the limits that you specify. To learn more about cluster autoscaling, visit the [Red Hat documentation for cluster autoscaling](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-nodes-about-autoscaling-nodes.html){:target="_blank"}.
+ROSA Cluster Autoscaler is a feature that helps automatically adjust the size of an ROSA cluster based on the current workload and resource demands. Cluster Autoscaler offers automatic and intelligent scaling of ROSA clusters, leading to efficient resource utilization, improved application performance, high availability, and simplified cluster management. By dynamically adjusting the cluster size based on workload demands, it helps organizations optimize their infrastructure costs while ensuring optimal application performance and scalability. The cluster autoscaler does not increase the cluster resources beyond the limits that you specify.
+
+![Diagram illustrating the cluster autoscaler process](../assets/images/diagram-cluster-autoscaler.png){ align=center }
+
+To learn more about cluster autoscaling, visit the [Red Hat documentation for cluster autoscaling](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-nodes-about-autoscaling-nodes.html){:target="_blank"}.
 
 ## Enable Autoscaling on the Default MachinePool
 
