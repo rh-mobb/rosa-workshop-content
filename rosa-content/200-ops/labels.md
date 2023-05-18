@@ -138,8 +138,8 @@ Congratulations! You've successfully demonstrated the ability to label nodes and
 
 Here you learned:
 
-* How to add labels to machinepools 
-* How to deploy an application on nodes with certain labels 
+* Add labels to machinepools 
+* Deploy an application on nodes with certain labels 
 
 Next you will learn:
 

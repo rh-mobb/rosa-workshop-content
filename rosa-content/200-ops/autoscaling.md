@@ -169,7 +169,7 @@ Congratulations! You've successfully demonstrated cluster autoscaling.
 
 Here you learned:
 
-* How to Enable ClusterAutoscaler on default machinepool
+* Enable ClusterAutoscaler on default machinepool
 * Deploy an application on the cluster and watch ClusterAutoscaler scale cluster up and down
 
 Next you will learn:
