@@ -1,10 +1,14 @@
 ## Introduction
 
-Red Hat OpenShift Service on AWS (ROSA) provides fully-managed cluster updates. These updates can be scheduled from the OpenShift Cluster Manager or from the ROSA CLI. All updates are monitored and managed by the Red Hat ROSA SRE team.
+Red Hat OpenShift Service on AWS (ROSA) provides fully-managed cluster upgrades. The Red Hat SRE Team will monitor and manage all ROSA cluster upgrades. Customers get status emails from the SRE team before, during, and after the upgrade. These updates can be scheduled from the OpenShift Cluster Manager or from the ROSA CLI.
+
+During ROSA upgrade, one node is upgraded at a time. This is done to ensure customer's applications are not impacted during the update
 
 For more information on how ROSA's Upgrade Service works, please see the [Red Hat documentation](https://docs.openshift.com/rosa/upgrading/rosa-upgrading-sts.html){:target="_blank"}.
 
-The [ROSA Upgrade Path](https://access.redhat.com/labs/ocpupgradegraph/update_path_rosa) helps to find a valid upgrade path. In this scenario to ugrade the cluster from version 4.11.0 to 4.12.15, it must be upgraded to 4.11.39 version.  
+## ROSA Upgrade Path
+
+The [ROSA Upgrade Path](https://access.redhat.com/labs/ocpupgradegraph/update_path_rosa) helps to find a valid upgrade path. In this scenario to upgrade the cluster from version 4.11.0 to 4.12.15, it must be upgraded to 4.11.39 version first.  
 
 ![rosa_upgrade_path_graph](../assets/images/rosa_upgrade_graph.png){ align=center } 
 
@@ -25,7 +29,7 @@ The [ROSA Upgrade Path](https://access.redhat.com/labs/ocpupgradegraph/update_pa
 
     ![OCM - Cluster Detail Overview Settings](../assets/images/ocm-cluster-detail-overview-settings.png){ align=center }
 
-1. Next, select the *Update* button in the *Update status* sidebar. 
+1. Next, select the *Update* button in the *Update status* sidebar.
 
     ![OCM - Update Status](../assets/images/ocm-update-status.png){ align=center }
 
