@@ -159,10 +159,6 @@ Congratulations! You've successfully scaled your cluster up and back down to thr
 
 Here you learned:
 
-* Creating new machinepool for your Red Hat OpenShift on AWS cluster
-* Scaling machinepool up to add more worker to the cluster
-* Scaling machinepool down to remove worker from the cluster 
-
-Next you will learn:
-
-* Cluster Autoscaling
+* Creating new Machine Pool for your ROSA cluster to add additional nodes to the cluster
+* Scaling your new Machine Pool up to add more nodes to the cluster
+* Scaling your Machine Pool down to remove worker nodes from the cluster 

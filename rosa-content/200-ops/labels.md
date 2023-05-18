@@ -140,7 +140,3 @@ Here you learned:
 
 * Add labels to machinepools 
 * Deploy an application on nodes with certain labels 
-
-Next you will learn:
-
-* Logging with AWS CloudWatch 

@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 It's time for us to put our cluster to work and deploy a workload! We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ROSA){:target="_blank"}, using [Quarkus](https://quarkus.io/){:target="_blank"} (a Kubernetes-native Java stack) and [Amazon DynamoDB](https://aws.amazon.com/dynamodb){:target="_blank"}. We'll then deploy the application to our ROSA cluster and connect to the database over AWS's secure network.
 
@@ -254,11 +254,7 @@ It comes from the ROSA Load Balancer. In this workshop, we are using a public cl
 
 Here you learned:
 
-* Create AWS DynamoDB table for application to use
-* Create IAM roles for Service Account
-* Deploy Microsweeper app that uses AWS DynamoDB as backend database
-* Access the Microsweeper app using OpenShift Routes 
-
-Next you will learn:
-
-* Make the App Resilient
+* Create an AWS DynamoDB table for your application to use
+* Create a service account and AWS IAM resources to use IAM Roles for Service Accounts (IRSA). 
+* Deploy the Microsweeper app and connect it to AWS DynamoDB as the backend database
+* Access the publicly exposed Microsweeper app using OpenShift routes. 
