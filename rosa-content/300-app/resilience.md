@@ -244,3 +244,12 @@ In this exercise we will scale the `microsweeper-appservice` application based o
     microsweeper-appservice-cpu   Deployment/microsweeper-appservice   0%/50%     2         4         4          19m
     microsweeper-appservice-cpu   Deployment/microsweeper-appservice   0%/50%     2         4         2          20m
     ```
+
+## Summary and Next Steps
+
+Here you learned:
+
+* Set Limits and Requests on the Microsweeper application from last section 
+* Scale Microsweeper application up and down
+* Set Pod Disruption Budget on the Microsweeper application
+* Set Horizontal Pod Autoscaler to automatically scale application based on load.
