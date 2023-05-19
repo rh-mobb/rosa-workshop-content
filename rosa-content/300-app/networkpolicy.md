@@ -1,7 +1,27 @@
 # Applying Network Policies to lock down networking
 
-You should have two application deployed in your cluster, the `microsweeper` application deployed in the `Deploy an App` portion of this workshop and the `bgd` app deployed in the `gitops` portion of this workshop. Each live in their own named Projects (or namespace in Kubernetes-speak).
+NetworkPolicies are used to control and secure communication between pods within a cluster. They provide a declarative approach to define and enforce network traffic rules, allowing you to specify the desired network behavior. By using NetworkPolicies, you can enhance the overall security of your applications by isolating and segmenting different components within the cluster. These policies enable fine-grained control over network access, allowing you to define ingress and egress rules based on criteria such as IP addresses, ports, and pod selectors.
 
+For this module we will be applying networkpolices to the previously created 'microsweeper-ex' namespace and using the 'microsweeper' app to test these policies. In addition, we will deploy two new applications to test against the 'microsweeper app 
+
+1. Create a new project and a new app. We will be using this pod for testing network connectivity to the microsweeper application 
+
+    ```bash
+    oc new-project networkpolicy-test
+    ```
+    
+    Create a new application within this namespace:  
+
+    ```bash
+    oc new-app nginx-sample
+    ```
+
+    Now we will change to the microsweeper-ex project to start applying the network policies
+
+    ```bash
+    oc project microsweeper-ex 
+    ```
+    
 1. Fetch the IP address of the `microsweeper` Pod
 
     ```bash
@@ -11,10 +31,10 @@ You should have two application deployed in your cluster, the `microsweeper` app
     echo $MS_IP
     ```
 
-1. Check to see if the `bgd` app can access the Pod.
+1. Check to see if the `nginx-sample` app can access the Pod.
 
     ```bash
-    oc -n bgd exec -ti deployment/bgd -- curl $MS_IP:8080 | head
+    oc -n test exec -ti deployment/nginx-sample -- curl $MS_IP:8080 | head
     ```
 
     The output should show a successful connection
@@ -44,35 +64,38 @@ You should have two application deployed in your cluster, the `microsweeper` app
       name: allow-from-openshift-ingress
       namespace: microsweeper-ex
     spec:
-      ingress:
-      - from:
-        - namespaceSelector:
-            matchLabels:
-              network.openshift.io/policy-group: ingress
       podSelector: {}
       policyTypes:
-        - Ingress
+       - Ingress
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  network.openshift.io/policy-group: ingress
+          ports:
+            - protocol: TCP
+              port: 8080
     EOF
     ```
 
 1. Try to access microsweeper from the bgd pod again
 
     ```bash
-    oc -n bgd exec -ti deployment/bgd -- curl $MS_IP:8080 | head
+    oc -n test exec -ti deployment/nginx-sample -- curl $MS_IP:8080 | head
     ```
 
     This time it should fail to connect. Hit Ctrl-C to avoid having to wait until a timeout.
 
     !!! info "If you have your browser still open to the microsweeper app, you can refresh and see that you can still access it."
 
-1. Sometimes you want your application to be accessible to other namespaces. You can allow access to just your microsweeper frontend from the `bgd` pods in the `bgd` namespace like so
+1. Sometimes you want your application to be accessible to other namespaces. You can allow access to just your microsweeper frontend from the `nginx-sample` pods in the `networkpolicy-test` namespace like so
 
     ```yaml
     cat <<EOF | oc apply -f -
     kind: NetworkPolicy
     apiVersion: networking.k8s.io/v1
     metadata:
-      name: allow-bgd-ap
+      name: allow-nginx-ap
       namespace: microsweeper-ex
     spec:
       podSelector:
@@ -82,17 +105,17 @@ You should have two application deployed in your cluster, the `microsweeper` app
         - from:
           - namespaceSelector:
               matchLabels:
-                kubernetes.io/metadata.name: bgd
+                kubernetes.io/metadata.name: networkpolicy-test
             podSelector:
               matchLabels:
-                app: bgd
+                deployment: nginx-sample 
     EOF
     ```
 
 1. Check to see if the `bgd` app can access the Pod.
 
     ```bash
-    oc -n bgd exec -ti deployment/bgd -- curl $MS_IP:8080 | head
+    oc -n test exec -ti deployment/nginx-sample -- curl $MS_IP:8080 | head
     ```
 
     The output should show a successful connection:
