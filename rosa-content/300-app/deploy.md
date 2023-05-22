@@ -65,6 +65,7 @@ IAM roles, on the other hand, define a set of permissions that can be assumed by
 
 This approach aligns with AWS' recommended best practices and provides several benefits. Firstly, it enhances security by reducing the risk associated with long-lived static credentials. Secondly, it simplifies the management of access controls by leveraging IAM roles, which can be centrally managed and easily updated. Finally, it enables seamless integration with AWS services, such as DynamoDB, by granting the necessary permissions to the service accounts associated with our pods.
 
+![irsa_sts](../assets/images/irsa-sts.jpeg){ align=center }
 
 1. First, create a service account to use to assume an IAM role. To do so, run the following command:
 
