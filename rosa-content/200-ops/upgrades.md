@@ -2,7 +2,7 @@
 
 Red Hat OpenShift Service on AWS (ROSA) provides fully-managed cluster upgrades. The ROSA Site Reliability Engineering (SRE) Team will monitor and manage all ROSA cluster upgrades. Customers get status emails from the SRE team before, during, and after the upgrade. These updates can be scheduled from the OpenShift Cluster Manager (OCM) or from the ROSA CLI.
 
-During ROSA upgrade, one node is upgraded at a time. This is done to ensure customer applications are not impacted during the update, when deployed in a highly-available and fault-tolerant method.
+During ROSA upgrades, one node is upgraded at a time. This is done to ensure customer applications are not impacted during the update, when deployed in a highly-available and fault-tolerant method.
 
 ## Upgrade using the OpenShift Cluster Manager
 

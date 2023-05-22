@@ -2,7 +2,7 @@
 
 It's time for us to put our cluster to work and deploy a workload! We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ROSA){:target="_blank"}, using [Quarkus](https://quarkus.io/){:target="_blank"} (a Kubernetes-native Java stack) and [Amazon DynamoDB](https://aws.amazon.com/dynamodb){:target="_blank"}. We'll then deploy the application to our ROSA cluster and connect to the database over AWS's secure network.
 
-This lab demonstrates how ROSA (an AWS native service) can easily and securely access and utilize other AWS native services using AWS Secure Token Service (STS). To achieve this, we will be using IAM, DynamoDB, and a service account within OpenShift. After configuring the latter, we will use both Quarkus, a Kubernetes-native Java framework optimized for containers, and Source-to-Image (S2I), a toolkit for building Docker images from source code, to deploy the microsweeper application.
+This lab demonstrates how ROSA (an AWS native service) can easily and securely access and utilize other AWS native services using AWS Secure Token Service (STS). To achieve this, we will be using IAM, DynamoDB, and a service account within OpenShift. After configuring the latter, we will use both Quarkus, a Kubernetes-native Java framework optimized for containers, and Source-to-Image (S2I), a toolkit for building container images from source code, to deploy the microsweeper application.
 
 ## Create an Amazon DynamoDB instance
 
@@ -258,4 +258,4 @@ Here you learned:
 * Create an AWS DynamoDB table for your application to use
 * Create a service account and AWS IAM resources to use IAM Roles for Service Accounts (IRSA). 
 * Deploy the Microsweeper app and connect it to AWS DynamoDB as the backend database
-* Access the publicly exposed Microsweeper app using OpenShift routes. 
+* Access the publicly exposed Microsweeper app using OpenShift routes.

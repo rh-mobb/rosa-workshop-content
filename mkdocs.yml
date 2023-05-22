@@ -1,6 +1,6 @@
 # Project Information
 site_name: MOBB ROSA Workshop
-site_url: https://ws.mobb.cloud/
+site_url: https://rosa-ws.mobb.cloud/
 site_description: A workshop focused on ROSA for operations and development teams.
 site_author: Red Hat
 
@@ -59,7 +59,7 @@ plugins:
 - encryptcontent:
     password_button: True
     remember_password: True
-    password_button_text: 'Password'
+    password_button_text: 'Submit'
     input_class: 'md-input'
     button_class: 'md-button md-button--primary'
     title_prefix: ''
@@ -68,9 +68,9 @@ plugins:
     encryption_info_message: "To access your lab resources, including credentials, please enter the password provided by the facilitator."
 
 extra:
-  aws_region: us-west-2
+  aws_region: us-east-2
   rosa_version: 4.11.36
-  home_url: https://ws.mobb.cloud/
+  home_url: https://rosa-ws.mobb.cloud/
 
 # Extensions
 markdown_extensions:
