@@ -1,6 +1,6 @@
 ## Introduction
 
-ROSA is designed with high availablity and resiliency in mind. Within ROSA there are multiple tools at your disposal to leverage this highly available and resilient architecture to ensure maximum uptime and availablity for your applications. Disruptions can occur for a variety of different reasons, but with proper configuration of the application, you can eliminate application disruption.  
+ROSA is designed with high availability and resiliency in mind. Within ROSA there are multiple tools at your disposal to leverage this highly available and resilient architecture to ensure maximum uptime and availability for your applications. Disruptions can occur for a variety of different reasons, but with proper configuration of the application, you can eliminate application disruption.  
 
 Limits and Requests can be used to both allocate and restrict the amount of resources an application can use, pod disruption budgets ensure that you always have a particular number of your application pods running and the Horizontal Pod Autoscaler can automatically increase and decrease pod count as needed. 
 
@@ -8,14 +8,14 @@ In this section of the workshop, we will use the previously deployed microsweepe
 
 ## Deploy an application
 
-1. First, let's set limits and requests on the previously deployed microsweeper application. Requests state the mimimum CPU and memory requirements for a container. This will ensure that the pod is placed on a node that can meet those requirements. Limits set the maximum amount of CPU and Memory that can be consumed by a container and ensure that a whole container does not consume all of the resources on a node. Setting limits and requests for deployments is best practice for resource management and ensuring the stability and reliability of your applications.
+1. First, let's set limits and requests on the previously deployed microsweeper application. Requests state the minimum CPU and memory requirements for a container. This will ensure that the pod is placed on a node that can meet those requirements. Limits set the maximum amount of CPU and Memory that can be consumed by a container and ensure that a whole container does not consume all of the resources on a node. Setting limits and requests for deployments is best practice for resource management and ensuring the stability and reliability of your applications.
 
     ```bash
     oc -n microsweeper-ex set resources deployment/microsweeper-appservice \
       --limits=cpu=60m,memory=250Mi \
       --requests=cpu=50m,memory=200Mi
     ```
-  Note: It is important to know the resource needs of the application before setting limits and requests to avoid resource starvation or over allocating resources. If you are unsure of the resource consumption of your application, you can use 'oc adm top pods' to view the current memory and CPU being currently consumed by each pod. Running this command mulitple times while the application is running can help set a general picture. 
+  Note: It is important to know the resource needs of the application before setting limits and requests to avoid resource starvation or over allocating resources. If you are unsure of the resource consumption of your application, you can use 'oc adm top pods' to view the current memory and CPU being currently consumed by each pod. Running this command multiple times while the application is running can help set a general picture. 
     
     ```bash
     [user0_mobbws@bastion ~]$ oc adm top pods -n microsweeper-ex

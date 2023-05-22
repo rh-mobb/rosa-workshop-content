@@ -187,7 +187,7 @@ How did those images get built you ask? Back on the OpenShift Web Console, click
 ![OpenShift Web Console - BuildConfigs](../assets/images/rosa-console-buildconfigs.png)
 ![OpenShift Web Console - microsweeper-appservice BuildConfig](../assets/images/rosa-console-microsweeper-appservice-buildconfig.png)
 
-When you ran the `quarkus build` command, this created the BuildConfig you can see here. In our quarkus settings, the application.properties we editied earlier, we set the deployment strategy to build the image using Docker. The Dockerfile file from the git repo that we cloned was used for this BuildConfig.
+When you ran the `quarkus build` command, this created the BuildConfig you can see here. In our quarkus settings, the application.properties we edited earlier, we set the deployment strategy to build the image using Docker. The Dockerfile file from the git repo that we cloned was used for this BuildConfig.
 
 !!! info "A build configuration describes a single build definition and a set of triggers for when a new build is created. Build configurations are defined by a BuildConfig, which is a REST object that can be used in a POST to the API server to create a new instance."
 
