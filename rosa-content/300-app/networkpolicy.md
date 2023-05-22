@@ -13,7 +13,23 @@ For this module we will be applying networkpolices to the previously created 'mi
     Create a new application within this namespace:  
 
     ```bash
-    oc new-app nginx-sample
+    cat << EOF | oc apply -f -
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: my-pod
+      namespace: networkpolicy-test
+      labels:
+        app: networkpolicy
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: false
+      containers:
+        - name: networkpolicy-pod
+          image: registry.access.redhat.com/ubi9/ubi-minimal
+          command: ["sleep", "infinity"]
+    EOF
+
     ```
 
     Now we will change to the microsweeper-ex project to start applying the network policies
@@ -31,10 +47,10 @@ For this module we will be applying networkpolices to the previously created 'mi
     echo $MS_IP
     ```
 
-1. Check to see if the `nginx-sample` app can access the Pod.
+1. Check to see if the `networkpolicy-pod` app can access the Pod.
 
     ```bash
-    oc -n test exec -ti deployment/nginx-sample -- curl $MS_IP:8080 | head
+    oc -n networkpolicy-test exec -ti pod/networkpolicy-pod -- curl $MS_IP:8080 | head
     ```
 
     The output should show a successful connection
@@ -78,24 +94,24 @@ For this module we will be applying networkpolices to the previously created 'mi
     EOF
     ```
 
-1. Try to access microsweeper from the bgd pod again
+1. Try to access microsweeper from networkpolicy-pod again
 
     ```bash
-    oc -n test exec -ti deployment/nginx-sample -- curl $MS_IP:8080 | head
+    oc -n networkpolicy-test exec -ti pod/networkpolicy-pod -- curl $MS_IP:8080 | head
     ```
 
     This time it should fail to connect. Hit Ctrl-C to avoid having to wait until a timeout.
 
     !!! info "If you have your browser still open to the microsweeper app, you can refresh and see that you can still access it."
 
-1. Sometimes you want your application to be accessible to other namespaces. You can allow access to just your microsweeper frontend from the `nginx-sample` pods in the `networkpolicy-test` namespace like so
+1. Sometimes you want your application to be accessible to other namespaces. You can allow access to just your microsweeper frontend from the networkpolicy-pod in the `networkpolicy-test` namespace like so
 
     ```yaml
     cat <<EOF | oc apply -f -
     kind: NetworkPolicy
     apiVersion: networking.k8s.io/v1
     metadata:
-      name: allow-nginx-ap
+      name: allow-networkpolicy-pod-ap
       namespace: microsweeper-ex
     spec:
       podSelector:
@@ -108,14 +124,14 @@ For this module we will be applying networkpolices to the previously created 'mi
                 kubernetes.io/metadata.name: networkpolicy-test
             podSelector:
               matchLabels:
-                deployment: nginx-sample 
+                app: networkpolicy
     EOF
     ```
 
-1. Check to see if the `bgd` app can access the Pod.
+1. Check to see if 'networkpolicy-pod` can access the Pod.
 
     ```bash
-    oc -n test exec -ti deployment/nginx-sample -- curl $MS_IP:8080 | head
+   oc -n networkpolicy-test exec -ti pod/networkpolicy-pod -- curl $MS_IP:8080 | head
     ```
 
     The output should show a successful connection:
@@ -133,11 +149,37 @@ For this module we will be applying networkpolices to the previously created 'mi
                 src="https://code.jquery.com/jquery-3.2.1.min.js"
     ```
 
-1. To verify that only the bgd app can access microsweeper run
+1. To verify that only the networkpolicy-pod app can access microsweeper: 
 
+  Create a new pod with a different label in the networkpolicy-test namespace: 
+    
     ```bash
-    oc -n bgd exec -ti deployment/argocd-server -- curl $MS_IP:8080 | head
+    cat << EOF | oc apply -f -
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: new-test
+      namespace: networkpolicy-test
+      labels:
+        app: new-test
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: false
+      containers:
+        - name: new-test
+          image: registry.access.redhat.com/ubi9/ubi-minimal
+          command: ["sleep", "infinity"]
+    EOF
+
     ```
+    
+    Try to curl the microsweeper-ex pod: 
+    
+    ```bash
+     oc -n networkpolicy-test exec -ti pod/new-test -- curl $MS_IP:8080 | head
+     ````
+    
+    
 
     This should fail.  Hit Ctrl-C to avoid waiting for a timeout.
 
