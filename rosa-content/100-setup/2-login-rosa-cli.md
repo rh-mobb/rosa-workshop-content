@@ -20,12 +20,12 @@ During this workshop, you will be working on a cluster that has been pre-created
 
 1. Finally, paste the newly generated command into your open terminal to login to the ROSA CLI.
 
-    ```bash
+    ```{.text .no-copy}
     rosa login --token="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ....."
     ```
 
     If everything has worked as expected, you should see output that looks like this:
-    ```
+    ```{.text .no-copy}
     I: Logged in as 'user#_mobbws' on 'https://api.openshift.com'
     ```
 
