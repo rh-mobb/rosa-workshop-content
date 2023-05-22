@@ -8,50 +8,62 @@ In this section of the workshop, we will use the previously deployed microsweepe
 
 ## Deploy an application
 
-1. First, let's set limits and requests on the previously deployed microsweeper application. Requests state the minimum CPU and memory requirements for a container. This will ensure that the pod is placed on a node that can meet those requirements. Limits set the maximum amount of CPU and Memory that can be consumed by a container and ensure that a whole container does not consume all of the resources on a node. Setting limits and requests for deployments is best practice for resource management and ensuring the stability and reliability of your applications.
+1. First, let's set limits and requests on the previously deployed microsweeper application. 
 
     ```bash
     oc -n microsweeper-ex set resources deployment/microsweeper-appservice \
       --limits=cpu=60m,memory=250Mi \
       --requests=cpu=50m,memory=200Mi
     ```
-  Note: It is important to know the resource needs of the application before setting limits and requests to avoid resource starvation or over allocating resources. If you are unsure of the resource consumption of your application, you can use 'oc adm top pods' to view the current memory and CPU being currently consumed by each pod. Running this command multiple times while the application is running can help set a general picture. 
-    
-    ```bash
-    [user0_mobbws@bastion ~]$ oc adm top pods -n microsweeper-ex
-    NAME                                       CPU(cores)   MEMORY(bytes)
-    microsweeper-appservice-65799476b6-vh9q7   0m           191Mi
-    ```
 
+    Requests state the minimum CPU and memory requirements for a container. This will ensure that the pod is placed on a node that can meet those requirements. Limits set the maximum amount of CPU and Memory that can be consumed by a container and ensure that a whole container does not consume all of the resources on a node. Setting limits and requests for deployments is best practice for resource management and ensuring the stability and reliability of your applications.
+
+    !!! note 
+        It is important to know the resource needs of the application before setting limits and requests to avoid resource starvation or over allocating resources. If you are unsure of the resource consumption of your application, you can use 'oc adm top pods' to view the current memory and CPU being currently consumed by each pod. Running the following command multiple times while the application is running can help set a general picture:
+      
+        ```bash
+        oc adm top pods -n microsweeper-ex
+        ```
+
+        You'll see output that looks something like this:
+        ```{.text, .no-copy}
+        NAME                                       CPU(cores)   MEMORY(bytes)
+        microsweeper-appservice-65799476b6-vh9q7   0m           191Mi
+        ```
     
-2. After updating the resources, you can see that a new pod was automatically rolled out with these new limits and requests. 
+2. Now that we've updated the resource, we can see that a new pod was automatically rolled out with these new limits and requests. To do so, run the following command:
 
     ```bash
     oc get pods -n microsweeper-ex
     ```
-    Newly created pod(Age 28s):
 
-    ```bash
+    We'll see a new pod (created 28 seconds earlier in this case):
+
+    ```{.text, .no-copy}
     [user0_mobbws@bastion ~]$ oc get pods microsweeper-ex
     NAME                                       READY   STATUS      RESTARTS   AGE
     microsweeper-appservice-1-build            0/1     Completed   0          17h
     microsweeper-appservice-69596ccc54-fsw2b   1/1     Running     0          28s
     ```
    
-    Limits and Requests added to the pod:
+    Want to see what the limits look like in the pod definition? Run the following command to see the limits and requests added to the pod:
    
     ```bash
-    [user0_mobbws@bastion ~]$ oc get pods microsweeper-appservice-69596ccc54-fsw2b -o yaml microsweeper-ex | grep limits -A5
-      limits:
-        cpu: 60m
-        memory: 250Mi
-      requests:
-        cpu: 50m
-        memory: 200Mi
+    oc get pods microsweeper-appservice-69596ccc54-fsw2b -o yaml microsweeper-ex | grep limits -A5
     ```
 
+    Your output will look like this: 
 
-3. We can now use the route again to ensure the application is functioning with the new limits and requests. To get the route, run the following command:
+    ```{.text, .no-copy}
+    limits:
+      cpu: 60m
+      memory: 250Mi
+    requests:
+      cpu: 50m
+      memory: 200Mi
+    ```
+
+3. We can now use the route of the application to ensure the application is functioning with the new limits and requests. To get the route, run the following command:
 
     ```bash
     oc -n microsweeper-ex get route microsweeper-appservice \
@@ -73,16 +85,15 @@ In this section of the workshop, we will use the previously deployed microsweepe
       microsweeper-appservice --replicas=3
     ```
 
-5. Next, check to see that the application has scaled. To do so, run the following command to see the pods.
-Then check that it has scaled:
+5. Next, let's check to see that the application has scaled. To do so, run the following command to see the pods:
 
     ```bash
     oc -n microsweeper-ex get pods 
     ```
-  Your output should look similar to this:
 
-    ```bash
-    [user0_mobbws@bastion ~]$ oc -n microsweeper-ex get pods
+    Your output should look similar to this:
+
+    ```{.text, .no-copy}
     NAME                                       READY   STATUS      RESTARTS   AGE
     microsweeper-appservice-1-build            0/1     Completed   0          18h
     microsweeper-appservice-69596ccc54-6lstj   1/1     Running     0          2m41s
@@ -90,14 +101,14 @@ Then check that it has scaled:
     microsweeper-appservice-69596ccc54-rkpgj   1/1     Running     0          2m41s
     ```
     
-  In addition you can see the number of pods, how many are on the current version, and how many are available by running the following: 
+    In addition you can see the number of pods, how many are on the current version, and how many are available by running the following: 
     
     ```bash
     oc -n microsweeper-ex get deployment microsweeper-appservice
     ```
     Your output should look like this: 
 
-    ```bash
+    ```{.text, .no-copy}
     NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
     microsweeper-appservice   3/3     3            3           18h
     ```
@@ -135,7 +146,7 @@ A PodDisruptionBudget object’s configuration consists of the following key par
     EOF
     ```
 
-    After creating the PDB, OpenShift API will ensure at least one pod of `microsweeper-appservice` is running all the time, even when maintenance is going on within the cluster.
+    After creating the PDB, the OpenShift API will ensure at least one pod of `microsweeper-appservice` is running all the time, even when maintenance is going on within the cluster.
 
 2. Next, let's check the status of Pod Disruption Budget. To do so, run the following command:
 
@@ -203,7 +214,7 @@ In this exercise we will scale the `microsweeper-appservice` application based o
 
     Your output should match the following:
 
-    ```{.txt .no-copy}
+    ```{.text .no-copy}
     NAME              REFERENCE                                        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
     microsweeper-appservice-cpu   Deployment/microsweeper-appservice   0%/50%    2         4         3          43s
     ```

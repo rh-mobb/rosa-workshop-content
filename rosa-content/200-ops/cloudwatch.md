@@ -1,6 +1,6 @@
 ## Introduction
 
-Red Hat OpenShift Service on AWS (ROSA) clusters store log data inside the cluster by default. It simplifies log management and analysis within a ROSA cluster, offering centralized log collection, powerful search capabilities, visualization tools, and integration with other monitoring systems like [AWS CloudWatch](https://aws.amazon.com/cloudwatch/). 
+Red Hat OpenShift Service on AWS (ROSA) clusters store log data inside the cluster by default. Understanding metrics and logs is critical in successfully running your cluster. Included with ROSA is the OpenShift Cluster Logging Operator, which is intended to simplify log management and analysis within a ROSA cluster, offering centralized log collection, powerful search capabilities, visualization tools, and integration with other monitoring systems like [AWS CloudWatch](https://aws.amazon.com/cloudwatch/). 
 
 Amazon CloudWatch is a monitoring and observability service provided by Amazon Web Services. It allows you to collect, store, analyze and visualize logs, metrics and events from various AWS resources and applications. Since ROSA is a first party AWS service, it integrates with AWS CloudWatch and forwards its infrastructure, audit and application logs to AWS CloudWatch.
 
