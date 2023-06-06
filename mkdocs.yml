@@ -13,9 +13,9 @@ nav:
   - Welcome: index.md
   - Accessing the Workshop:
     - Environment Setup: 100-setup/1-environment.md
-    - Login to the ROSA CLI: 100-setup/2-login-rosa-cli.md
-  #- Create ROSA Cluster: 100-setup/2-cluster-creation.md
-    - Access Your Cluster: 100-setup/3-access-cluster.md
+    # - Login to the ROSA CLI: 100-setup/2-login-rosa-cli.md
+    - Create ROSA Cluster: 100-setup/3-cluster-creation.md
+    - Access Your Cluster: 100-setup/4-access-cluster.md
   - Day Two ROSA Operations:
     - Configuring Cluster Authentication: 200-ops/idp.md
     - Managing Cluster Upgrades: 200-ops/upgrades.md
