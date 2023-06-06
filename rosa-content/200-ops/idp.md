@@ -41,16 +41,20 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
 ## Configure ROSA
 
 1. Finally, we need to configure OpenShift to use Amazon Cognito as its identity provider. While Red Hat OpenShift Service on AWS (ROSA) offers the ability to configure identity providers via the OpenShift Cluster Manager (OCM),we're going to configure the cluster’s OAuth provider via the rosa CLI. To do so, run the following command, making sure to replace the variable specified:
+
     ```bash
     CLIENT_ID=replaceme # Replace this with the ClientId from the step above
     CLIENT_SECRET=replaceme # Replace this with the ClientSecret from the step above
+    ```
+
+    ```bash
     rosa create idp \
     --cluster ${WS_USER/_/-} \
     --type openid \
     --name Cognito \
     --client-id ${CLIENT_ID} \
     --client-secret ${CLIENT_SECRET} \
-    --issuer-url https://cognito-idp.{{ aws_region }}.amazonaws.com/${WS_COGNITO_ID} \
+    --issuer-url https://cognito-idp.${AWS_DEFAULT_REGION}.amazonaws.com/${WS_COGNITO_ID} \
     --email-claims email \
     --name-claims name \
     --username-claims preferred_username
