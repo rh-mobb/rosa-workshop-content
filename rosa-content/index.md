@@ -2,7 +2,7 @@
 hide:
   - toc
 ---
-![Red Hat OpenShift Service on AWS (ROSA) Hands-on workshop](./assets/images/summit-rosa-header.png){ align=center }
+![Red Hat OpenShift Service on AWS (ROSA) Hands-on workshop](./assets/images/consulting-header.png){ align=center }
 
 <!-- ## Overview -->
 Welcome to the Red Hat OpenShift Service on AWS (ROSA) Hands-on workshop at the Red Hat Plano, TX office! During 
