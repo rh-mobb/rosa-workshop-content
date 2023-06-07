@@ -12,6 +12,7 @@ repo_url: https://github.com/rh-mobb/rosa-workshop-content
 nav:
   - Welcome: index.md
   - Accessing the Workshop:
+    - Get Credentials: 100-setup/0-credentials.md
     - Environment Setup: 100-setup/1-environment.md
     # - Login to the ROSA CLI: 100-setup/2-login-rosa-cli.md
     - Create ROSA Cluster: 100-setup/3-cluster-creation.md
