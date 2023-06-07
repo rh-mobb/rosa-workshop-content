@@ -27,14 +27,14 @@ nav:
     - Deploy the App: 300-app/deploy.md
     - Make the App Resilient: 300-app/resilience.md
     - Restrict Network Access: 300-app/networkpolicy.md
-  #   - Using OpenShift GitOps: 300-app/gitops.md
-  #   - Automate Deploying the App with Tekton: 300-app/cicd.md
-  # - Service Mesh:
-  #   - Introduction to OpenShift Service Mesh: 400-service-mesh/introduction.md
-  #   - Deploy Service Mesh Operator: 400-service-mesh/install.md
-  #   - Deploy Control Plane: 400-service-mesh/deploy-control-plane.md
-  #   - Deploy Workloads: 400-service-mesh/deploy-workload.md
-  #   - Configure and Observe Traffic: 400-service-mesh/configure-observe-traffic.md
+    - "[Optional] Using OpenShift GitOps": 300-app/gitops.md
+    - "[Optional] Deploying the App with Tekton": 300-app/cicd.md
+  - "[Optional] Service Mesh":
+    - Introduction to OpenShift Service Mesh: 400-service-mesh/introduction.md
+    - Deploy Service Mesh Operator: 400-service-mesh/install.md
+    - Deploy Control Plane: 400-service-mesh/deploy-control-plane.md
+    - Deploy Workloads: 400-service-mesh/deploy-workload.md
+    - Configure and Observe Traffic: 400-service-mesh/configure-observe-traffic.md
 
 # Theme Configuration
 theme:
