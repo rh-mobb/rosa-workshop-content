@@ -114,3 +114,20 @@ rosa create user-role --mode auto --yes
 | `--compute-machine-type` | The AWS instance type to use for worker nodes. |
 | `--machine-cidr`, `--service-cidr`, `--pod-cidr`, `--host-prefix` | The various network ranges to use for the cluster. |
 | `--mode`, `--yes` | Setting this to `--mode` to `auto` and using `--yes` automatically creates the necessary operator STS roles, along with the cluster's OIDC STS provider. |
+
+### Other Common Installation Options
+
+These are other commonly seen installation options not seen in the example above:
+
+| Option     | Description |
+| ----------- | ------------------------------------ |
+| `--multi-az`       | Deploy the machine pools across multiple availability zones to add high availability for worker and infra nodes within the AWS region.  | 
+| `--etcd-encryption` | In addition to EBS volume encryption, encrypt the contents of the etcd database.  | 
+| `--etcd-encryption-kms-arn` | Uses a pre-existing KMS key to encrypt the contents of etcd.  | 
+| `--kms-key-arn` | Uses a pre-existing KMS key for all items that are capable of being encrypted (e.g. EBS volumes).  | 
+| `--private-link` | Deploy a private link cluster to restrict SRE access across an AWS PrivateLink endpoint.  | 
+| `--subnet-ids` | Deploy a cluster into a pre-configured network using pre-deployed subnets.  | 
+| `--enable-autoscaling` | Enable autoscaling for the default machine pool.  | 
+| `--min-replicas` | Sets the minimum number of nodes required for the default machine pool.  | 
+| `--max-replicas` | Sets the maximum number of nodes for the default machine pool.  | 
+| `--[no,http,https]-proxy` | Proxy settings for access outside of the VPC.  | 
