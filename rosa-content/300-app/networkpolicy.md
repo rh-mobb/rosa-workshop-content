@@ -17,7 +17,7 @@ For this module we will be applying networkpolices to the previously created 'mi
     apiVersion: v1
     kind: Pod
     metadata:
-      name: my-pod
+      name: networkpolicy-pod
       namespace: networkpolicy-test
       labels:
         app: networkpolicy
@@ -131,56 +131,51 @@ For this module we will be applying networkpolices to the previously created 'mi
 1. Check to see if 'networkpolicy-pod` can access the Pod.
 
     ```bash
-   oc -n networkpolicy-test exec -ti pod/networkpolicy-pod -- curl $MS_IP:8080 | head
+     oc -n networkpolicy-test exec -ti pod/networkpolicy-pod -- curl $MS_IP:8080 | head
     ```
 
     The output should show a successful connection:
 
     ```{.html .no-copy}
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Microsweeper</title>
-        <link rel="stylesheet" href="css/main.css">
-        <script
-                src="https://code.jquery.com/jquery-3.2.1.min.js"
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <title>Microsweeper</title>
+          <link rel="stylesheet" href="css/main.css">
+          <script
+                  src="https://code.jquery.com/jquery-3.2.1.min.js"
     ```
 
 1. To verify that only the networkpolicy-pod app can access microsweeper: 
 
-  Create a new pod with a different label in the networkpolicy-test namespace: 
-    
+  Create a new pod with a different label in the networkpolicy-test namespace:
     ```bash
-    cat << EOF | oc apply -f -
-    apiVersion: v1
-    kind: Pod
-    metadata:
+      cat << EOF | oc apply -f -
+      apiVersion: v1
+      kind: Pod
+      metadata:
       name: new-test
       namespace: networkpolicy-test
       labels:
         app: new-test
-    spec:
-      securityContext:
-        allowPrivilegeEscalation: false
+      spec:
+        securityContext:
+          allowPrivilegeEscalation: false
       containers:
-        - name: new-test
-          image: registry.access.redhat.com/ubi9/ubi-minimal
-          command: ["sleep", "infinity"]
-    EOF
-
+         - name: new-test
+           image: registry.access.redhat.com/ubi9/ubi-minimal
+           command: ["sleep", "infinity"]
+      EOF
     ```
-    
-    Try to curl the microsweeper-ex pod: 
-    
-    ```bash
-     oc -n networkpolicy-test exec -ti pod/new-test -- curl $MS_IP:8080 | head
-     ````
-    
-    
 
-    This should fail.  Hit Ctrl-C to avoid waiting for a timeout.
+  Try to curl the microsweeper-ex pod: 
+    ```bash
+      oc -n networkpolicy-test exec -ti pod/new-test -- curl $MS_IP:8080 | head
+    ```
+
+  This should fail.  Hit Ctrl-C to avoid waiting for a timeout.
 
 !!! info "For information on setting default network policies for new projects you can read the OpenShift documentation on [modifying the default project template](https://docs.openshift.com/container-platform/4.10/networking/network_policy/default-network-policy.html)."
