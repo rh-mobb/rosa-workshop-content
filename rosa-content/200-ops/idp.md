@@ -63,7 +63,8 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
 1. Next, let's give Cluster Admin permissions to your Amazon Cognito user by running the following commands:
 
     ```bash
-    oc adm policy add-cluster-role-to-user cluster-admin ${WS_USER}
+    oc adm policy add-cluster-role-to-user \
+      cluster-admin $(oc get users | grep User | awk '{print $1}')
     ```
 
     !!! note "You're logged in to the OpenShift CLI already, so you can run this command. You can also grant these permissions via the rosa CLI by using the `rosa grant user cluster-admin` command."
