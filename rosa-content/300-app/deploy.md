@@ -218,6 +218,14 @@ You can also get the the URL for your application using the command line:
 ```bash
 oc -n microsweeper-ex get route microsweeper-appservice -o jsonpath='{.spec.host}'
 ```
+### Use HTTPS
+
+As you can see application is accesible only by HTTP, to change configuration of route to use only HTTPS, run:
+
+```bash
+oc patch route microsweeper-appservice --patch '{"spec":{"tls":{"termination":"edge"}}}'
+oc patch route microsweeper-appservice --patch '{"spec":{"tls":{"insecureEdgeTerminationPolicy":"Redirect"}}}'
+```
 
 ### Application IP
 Let's take a quick look at what IP the application resolves to. Back in your Cloud Shell environment, run the following command:
