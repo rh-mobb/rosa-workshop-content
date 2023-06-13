@@ -220,7 +220,7 @@ oc -n microsweeper-ex get route microsweeper-appservice -o jsonpath='{.spec.host
 ```
 ### Use HTTPS
 
-As you can see application is accesible only by HTTP, to change configuration of route to use HTTPS, run:
+As you can see application is accesible only by HTTP, to change configuration to use HTTPS, run:
 ```bash
 oc patch route microsweeper-appservice --patch '{"spec":{"tls":{"termination":"edge"}}}'
 ```
