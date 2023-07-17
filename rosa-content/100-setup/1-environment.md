@@ -19,7 +19,7 @@ When logging in to the [AWS Management Console](https://it-cloud-aws-mobb-san-wo
 
 You have two options for accessing the workshop environment:
 
-1. Local SSH Client (recommended)
+1. Local SSH Client (recommended) *or*
 2. AWS CloudShell
 
 #### Option 1: Local SSH Client
@@ -33,7 +33,7 @@ Using your local SSH client, connect to the following host:
 | Username    | **user#_mobbws** |  **user2_mobbws** |
 | Password       | *Use the password provided by the workshop team* | N/A |
 
-For example, if I was using a Linux or Mac terminal, I would run the following command to SSH to the cloud bastion host (making sure to replace the `#` with your assigned user number): 
+For example, if I was using a Linux or Mac terminal, I would run the following command to SSH to the cloud bastion host (making sure to replace the `#` with your assigned user number):
 
 ```
 ssh user#_mobbws@bastion.aws.mobb.cloud
@@ -41,7 +41,9 @@ ssh user#_mobbws@bastion.aws.mobb.cloud
 
 #### Option 2: AWS CloudShell
 
-AWS CloudShell is recommended for use if your local machine does not have an SSH client or if your corporate network prevents you from egressing to port 22. AWS CloudShell is a browser-accessible shell provided directly in the AWS Management Console. To use AWS CloudShell, ensure you are logged in to the AWS Management Console and follow the steps below. 
+> Skip this if you are using Option 1 and are SSHing into the bastion.
+
+AWS CloudShell is recommended for use if your local machine does not have an SSH client or if your corporate network prevents you from egressing to port 22. AWS CloudShell is a browser-accessible shell provided directly in the AWS Management Console. To use AWS CloudShell, ensure you are logged in to the AWS Management Console and follow the steps below.
 
 1. To start AWS CloudShell, click on the `>_` button at the top right corner of the AWS Management Console.
 
@@ -57,6 +59,6 @@ AWS CloudShell is recommended for use if your local machine does not have an SSH
     ssh user#_mobbws@bastion.aws.mobb.cloud
     ```
 
-    Enter the password provided by the workshop team when prompted. 
+    Enter the password provided by the workshop team when prompted.
 
     ![AWS CloudShell - SSH to Bastion](../assets/images/cloudshell-ssh.png){ align=center }
