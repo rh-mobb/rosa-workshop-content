@@ -43,8 +43,8 @@ theme:
   name: material
   language: 'en'
   palette:
-    primary: custom
-    accent: custom
+    primary: black
+    accent: red
   font:
     text: Overpass
     code: Overpass Mono
@@ -56,16 +56,6 @@ docs_dir: rosa-content
 plugins:
 - section-index
 - macros
-- encryptcontent:
-    password_button: True
-    remember_password: True
-    password_button_text: 'Submit'
-    input_class: 'md-input'
-    button_class: 'md-button md-button--primary'
-    title_prefix: ''
-    summary: 'Welcome to the MOBB ROSA Workshop!'
-    placeholder: 'Enter the password provided by the facilitator'
-    encryption_info_message: "To access your lab resources, including credentials, please enter the password provided by the facilitator."
 
 extra:
   aws_region: us-east-2
