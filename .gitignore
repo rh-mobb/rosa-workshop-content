@@ -44,3 +44,7 @@ generated/*
 
 # ignore virtualenv
 virtualenv/*
+
+# prevent inadvertent publishing of credential pages
+credentials/*
+!credentials/.gitkeep

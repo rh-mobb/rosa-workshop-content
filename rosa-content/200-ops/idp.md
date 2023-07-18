@@ -1,20 +1,29 @@
-# Configuring ROSA to use Amazon Cognito for authentication
+## Introduction
 
-As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we created a temporary cluster-admin user using the `rosa create admin` command. This uses htpasswd as a local identity provider to allow you to access the cluster. Most ROSA users will want to connect ROSA to a single-sign-on provider, such as Amazon Cognito. In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
+[AWS Cognito](https://aws.amazon.com/cognito/){ align=center } is a fully managed authentication, authorization, and user management service provided by Amazon Web Services (AWS). It simplifies the process of adding user sign-up, sign-in, and access control to your ROSA Cluster.
+Integrating ROSA cluster with AWS Cognito simplifies user authentication, provides secure access control, supports federated identity and SSO, and enables centralized user management and audit trails
+
+As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we created a temporary cluster-admin user using the `rosa create admin` command. This uses htpasswd as a local identity provider to allow you to access the cluster. In this section of the workshop, we'll configure Amazon Cognito as the cluster identity provider in your ROSA cluster.
+
+The following diagram illustrates the ROSA authentication process for a cluster configured with Amazon Cognito. 
+
+![Flow chart illustrating the ROSA authentication process for a cluster configured with Amazon Cognito](../assets/images/rosa_idp_cognito.png){ align=center }
+
+To learn more about configuring identity providers for ROSA, visit the [Red Hat documentation on configuring identity providers](https://docs.openshift.com/rosa/rosa_install_access_delete_clusters/rosa-sts-config-identity-providers.html){:target="_blank"}.
 
 ## Configure Amazon Cognito
 
-1. First, we need to determine the OAuth callback URL, which we will use to tell Amazon Cognito where it should send authentication responses. To do so, run the following command:
+1. First, we need to determine the OpenShift OAuth Server's callback URL, which we will use to tell Amazon Cognito where it should send authentication responses. To do so, run the following command:
 
     ```bash
     CLUSTER_DOMAIN=$(rosa describe cluster -c ${WS_USER/_/-} | grep "DNS" | grep -oE '\S+.openshiftapps.com')
     echo "OAuth callback URL: https://oauth-openshift.apps.${CLUSTER_DOMAIN}/oauth2callback/Cognito"
     ```
 
-1. Next, let's create an app client in Amazon Cognito. To do so, run the following command:
+1. Next, let's create an app client in Amazon Cognito and store the `ClientId` parameter for use later. To do so, run the following command:
 
     ```bash
-    aws cognito-idp create-user-pool-client \
+    echo "export COGNITO_CLIENT_ID=$(aws cognito-idp create-user-pool-client \
     --user-pool-id ${WS_COGNITO_ID} \
     --client-name ${WS_USER/_/-} \
     --generate-secret \
@@ -22,39 +31,52 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
     --supported-identity-providers COGNITO \
     --allowed-o-auth-scopes "phone" "email" "openid" "profile" \
     --allowed-o-auth-flows code \
-    --allowed-o-auth-flows-user-pool-client
+    --allowed-o-auth-flows-user-pool-client \
+    --query UserPoolClient.ClientId \
+    --output text)" >> ~/.bashrc
+    source ~/.bashrc
+    echo "ClientId: ${COGNITO_CLIENT_ID}"
     ```
 
     The output of the command will look something like this:
 
-    ```json
-    "UserPoolClient": {
-        "UserPoolId": "{{ aws_region }}_i5V2Mxaya",
-        "ClientName": "user1-mobbws",
-        "ClientId": "abcdefghijklmnopqrstuvwxyz",
-        "ClientSecret": "redacted",
-        ...
+    ```{.text, .no-copy}
+    ClientId: abcdefghijklmnopqrstuvwxyz
     ```
 
-    **Ensure that you capture the `ClientId` and `ClientSecret` before moving on to the next steps and store it somewhere safe.**
+    If you don't see a client ID, double check that you ran the above commands and then ask for help!
 
-## Configure ROSA
-
-1. Finally, we need to configure OpenShift to use Amazon Cognito as its identity provider. While Red Hat OpenShift Service on AWS (ROSA) offers the ability to configure identity providers via the OpenShift Cluster Manager (OCM),we're going to configure the cluster’s OAuth provider via the rosa CLI. To do so, run the following command, making sure to replace the variable specified:
+1. Next, let's grab the Cognito `ClientSecret` that was generated in the previous step. To do so, run the following command:
 
     ```bash
-    CLIENT_ID=replaceme # Replace this with the ClientId from the step above
-    CLIENT_SECRET=replaceme # Replace this with the ClientSecret from the step above
+    echo "export COGNITO_CLIENT_SECRET=$(aws cognito-idp describe-user-pool-client \
+    --user-pool-id ${WS_COGNITO_ID} \
+    --client-id ${COGNITO_CLIENT_ID} \
+    --query UserPoolClient.ClientSecret \
+    --output text)" >> ~/.bashrc
+    source ~/.bashrc
+    echo "ClientSecret: ${COGNITO_CLIENT_SECRET}"
     ```
+
+    The output of the command will look something like this:
+
+    ```{.text, .no-copy}
+    ClientSecret: redacted
+    ```
+
+    If you don't see a client secret, ask for help!
+
+## Configure ROSA
+1. Finally, we need to configure ROSA to use Amazon Cognito as its identity provider. While ROSA offers the ability to configure identity providers via OpenShift Cluster Manager (OCM), we're going to configure the cluster’s OAuth provider via the `rosa` CLI instead. To do so, we'll use the information we gathered in the above steps (`ClientId` and `ClientSecret`), and create our ROSA IdP configuration by running the following command: 
 
     ```bash
     rosa create idp \
     --cluster ${WS_USER/_/-} \
     --type openid \
     --name Cognito \
-    --client-id ${CLIENT_ID} \
-    --client-secret ${CLIENT_SECRET} \
-    --issuer-url https://cognito-idp.${AWS_DEFAULT_REGION}.amazonaws.com/${WS_COGNITO_ID} \
+    --client-id ${COGNITO_CLIENT_ID} \
+    --client-secret $(aws cognito-idp describe-user-pool-client --user-pool-id ${WS_COGNITO_ID} --client-id ${COGNITO_CLIENT_ID} --query UserPoolClient.ClientSecret --output text) \
+    --issuer-url https://cognito-idp.{{ aws_region }}.amazonaws.com/${WS_COGNITO_ID} \
     --email-claims email \
     --name-claims name \
     --username-claims preferred_username
@@ -76,3 +98,12 @@ As part of the [Access Your Cluster](../../100-setup/3-access-cluster/) page, we
 1. Logout from your OpenShift Web Console and browse back to the Console URL.  We do this to refresh our session and get the Admin access.
 
 Congratulations! You've successfully configured your Red Hat OpenShift Service on AWS (ROSA) cluster to authenticate with Amazon Cognito.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* Configure Amazon Cognito to act as the ROSA identity provider
+* Configure your ROSA cluster to use Amazon Cognito for authentication
+* Grant your workshop user `cluster-admin` privileges in ROSA cluster
+

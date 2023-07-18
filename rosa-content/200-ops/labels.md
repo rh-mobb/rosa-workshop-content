@@ -130,6 +130,13 @@ Now that we've successfully labeled our nodes, let's deploy a workload to demons
 
 1. In the above case, you'd visit `https://nodeselector-app-nodeselector-ex.apps.user1-mobbws.2ep4.p1.openshiftapps.com` in your browser.
 
-    > Note the application is exposed over the default ingress using a predetermined URL and trusted TLS certificate. This is done using the OpenShift `Route` resource which is an extension to the Kubernetes `Ingress` resource.
+    > Note the application is exposed over the default ingress using a predetermined URL and trusted TLS certificate. This is done using the OpenShift Ingress Controller via a `Route`.
 
 Congratulations! You've successfully demonstrated the ability to label nodes and target those nodes using `nodeSelector`.
+
+## Summary and Next Steps
+
+Here you learned:
+
+* Add labels to Machine Pools 
+* Deploy an application on nodes with certain labels 

@@ -2,7 +2,16 @@
 
 When deploying your ROSA cluster, you can configure many aspects of your worker nodes, but what happens when you need to change your worker nodes after they've already been created? These activities include scaling the number of nodes, changing the instance type, adding labels or taints, just to name a few.
 
-Many of these changes are done using MachinePools. MachinePools ensure that a specified number of Machine replicas are running at any given time. Think of a MachinePool as a "template" for the kinds of Machines that make up the worker nodes of your cluster. If you'd like to learn more, see the [Red Hat documentation on worker node management](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-managing-worker-nodes.html){:target="_blank"}.
+Many of these changes are done using Machine Pools. Machine Pools ensure that a specified number of Machine replicas are running at any given time. Think of a Machine Pool as a "template" for the kinds of Machines that make up the worker nodes of your cluster. If you'd like to learn more, see the [Red Hat documentation on worker node management](https://docs.openshift.com/rosa/rosa_cluster_admin/rosa_nodes/rosa-managing-worker-nodes.html){:target="_blank"}.
+
+Here are some of the advantages of using ROSA Machine Pools to manage the size of your cluster
+
+* Scalability - ROSA Machine Pool enables horizontal scaling of your cluster. It can easily add or remove worker to handle the changes in workload. This flexibility ensures that your cluster can dynamically scale to meet the needs of your applications
+* High Availability - ROSA Machine Pool supports the creation of 3 replicas of workers across different availability zones. This redundancy helps ensure high availability of applications by distributing workloads.
+* Infrastructure Diversity - ROSA Machine Pool allow you to provision worker nodes of different instance type. This enables you you leverage the best kind of instance family for different workloads.
+* Integration with Cluster Autoscaler - ROSA Machine Pool seamlessly integrate with the Cluster Autoscaler feature, which automatically adjusts the number of worker nodes based on the current demand. This integration ensures efficient resource utilization by scaling the cluster up or down as needed, optimizing costs and performance.
+
+![scale_machinepool](../assets/images/scale_machinepool.png){ align=center }
 
 ## Scaling worker nodes
 ### Via the CLI
@@ -88,7 +97,7 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
     user1-mobbws-6sj5f-workshop-{{ aws_region }}a    2         2         1       1           4m36s
     ```
 
-    Note, that the number of *desired* and *current* nodes matches the scale we specified, but only one is *ready* and *available*.
+    Note, that the number of `DESIRED` and `CURRENT` nodes matches the scale we specified, but only one is *ready* and *available*. If you wait a couple of minutes, `READY` and `AVAILABLE` count will also go to two
 
     We can also run the same command we ran in step 2 to see the machine being provisioned:
 
@@ -146,3 +155,10 @@ Many of these changes are done using MachinePools. MachinePools ensure that a sp
 
 Congratulations! You've successfully scaled your cluster up and back down to three nodes.
 
+## Summary and Next Steps
+
+Here you learned:
+
+* Creating new Machine Pool for your ROSA cluster to add additional nodes to the cluster
+* Scaling your new Machine Pool up to add more nodes to the cluster
+* Scaling your Machine Pool down to remove worker nodes from the cluster 
