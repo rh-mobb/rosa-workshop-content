@@ -58,7 +58,7 @@ plugins:
 extra:
   analytics:
     provider: google 
-    property: G-HJFBHK23L0
+    property: G-Z0098HBFHP
   aws_region: us-east-1
   rosa_version: 4.11.36
 
