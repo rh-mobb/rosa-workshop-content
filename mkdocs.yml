@@ -56,6 +56,9 @@ plugins:
 - macros
 
 extra:
+  analytics:
+    provider: google 
+    property: G-XXXXXXXXXX
   aws_region: us-east-1
   rosa_version: 4.11.36
 
