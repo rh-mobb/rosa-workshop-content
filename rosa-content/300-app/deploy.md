@@ -218,6 +218,17 @@ You can also get the the URL for your application using the command line:
 ```bash
 oc -n microsweeper-ex get route microsweeper-appservice -o jsonpath='{.spec.host}'
 ```
+### Use HTTPS
+
+As you can see application is accesible only by HTTP, to change configuration to use HTTPS, run:
+```bash
+oc patch route microsweeper-appservice --patch '{"spec":{"tls":{"termination":"edge"}}}'
+```
+To make sure that every HTTP request are redirected to HTTPS run:
+```bash
+oc patch route microsweeper-appservice --patch '{"spec":{"tls":{"insecureEdgeTerminationPolicy":"Redirect"}}}'
+```
+You can find more information of route behaviour/configuration [here](https://docs.openshift.com/rosa/networking/routes/secured-routes.html)
 
 ### Application IP
 Let's take a quick look at what IP the application resolves to. Back in your Cloud Shell environment, run the following command:
